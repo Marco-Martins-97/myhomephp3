@@ -1,0 +1,24 @@
+CREATE TABLE users(
+	id INT(11) NOT NULL AUTO_INCREMENT,
+    username VARCHAR(30) NOT NULL,
+    pwd VARCHAR(255) NOT NULL,
+    userRole VARCHAR(25) NOT NULL,
+    activated TINYINT(1) NOT NULL,
+    PRIMARY KEY (id)
+)
+
+CREATE TABLE clients(
+	id INT(11) NOT NULL AUTO_INCREMENT,
+    firstName VARCHAR(30) NOT NULL,
+    lastName VARCHAR(30) NOT NULL,
+    email VARCHAR(100) NOT NULL,
+    birthDate DATETIME NOT NULL,
+    nif VARCHAR(9) NOT NULL,
+    phone VARCHAR(9) NOT NULL,
+    clientAddress VARCHAR(100) NOT NULL,
+    district VARCHAR(100) NOT NULL,
+    lastUpdate DATETIME NOT NULL DEFAULT CURRENT_TIME,
+	userId INT(11) DEFAULT NULL,
+    PRIMARY KEY (id),
+    FOREIGN KEY (userId) REFERENCES users (id) ON DELETE SET NULL
+);

@@ -20,7 +20,32 @@ class Signup{
         $this->conn = $dbh->connect();
     }
 
-    //Verification
+    //SQL
+    private function getUsername() {
+        $sql = "SELECT * FROM users WHERE username = :username;";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindParam(':username', $this->username);
+        $stmt->execute();
+        
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $result;
+    }
+
+    private function createNewUser(){
+        $sql = "INSERT INTO users (username, pwd, userRole, activated) VALUES (:username, :pwd, :userRole, :activated)";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindParam(':username', $this->username);
+
+        $options = ["cost" => 12];
+        $hashedPwd = password_hash($this->pwd, PASSWORD_BCRYPT, $options);
+
+        $stmt->bindParam(':pwd', $hashedPwd);
+        $stmt->bindParam(':userRole', $this->userRole);
+        $stmt->bindParam(':activated', $this->activated);
+        $stmt->execute();
+    }
+
+    //Verficação de dados
     private function isInputEmpty($input){
         if (empty($input)){
             return true;
@@ -56,67 +81,9 @@ class Signup{
             return false;
         }
     }
-    /* private function isEmailInvalid(){
-        if (!filter_var($this->email, FILTER_VALIDATE_EMAIL)){
-            return true;
-        } else{
-            return false;
-        }
-    } */
-    /* private function isEmailTaken(){
-        if ($this->getEmail()){
-            return true;
-        } else{
-            return false;
-        }
-    } */
-    /* private function isNumInvalid($input){
-        if (!preg_match("/^[0-9]{9}$/", $input)){
-            return true;
-        } else{
-            return false;
-        }
-    } */
-    /* private function isAddressInvalid($input){
-        if (!preg_match("/^[a-zA-Z0-9\s,.-]*$/", $input)){
-            return true;
-        } else{
-            return false;
-        }
-    } */
-    /* private function isDateInvalid($input){
-        if (!preg_match("/^\d{4}-\d{2}-\d{2}$/", $input)){
-            return true;
-        } else{
-            return false;
-        }
-    } */
-    private function getUsername() {
-        $query = "SELECT * FROM users WHERE username = :username;";
-        $stmt = $this->conn->prepare($query);
-        $stmt->bindParam(':username', $this->username);
-        $stmt->execute();
-        
-        $result = $stmt->fetch(PDO::FETCH_ASSOC);
-        return $result;
-    }
 
-    private function createNewUser(){
-        $sql = "INSERT INTO users (username, pwd, userRole, activated) VALUES (:username, :pwd, :userRole, :activated)";
-        $stmt = $this->conn->prepare($sql);
-        $stmt->bindParam(':username', $this->username);
-
-        $options = ["cost" => 12];
-        $hashedPwd = password_hash($this->pwd, PASSWORD_BCRYPT, $options);
-
-        $stmt->bindParam(':pwd', $hashedPwd);
-        $stmt->bindParam(':userRole', $this->userRole);
-        $stmt->bindParam(':activated', $this->activated);
-        $stmt->execute();
-    }
-
+    //Registar user
     public function signup(){
-        //validation
         //Username
         if ($this->isInputEmpty($this->username)){
             $this->errors["username"] = "empty";
@@ -140,7 +107,6 @@ class Signup{
         //Errors
         if ($this->errors){
             header("Location: ../signup.php?signup=failed");
-            echo 'alert("O Registo Falhou!, tente Novamente.")';
             die();
         }
         //create user

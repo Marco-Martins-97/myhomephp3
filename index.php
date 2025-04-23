@@ -27,10 +27,34 @@
                     <li><a href="index.php#orcamento">Orçamento</a></li>
                     <li><a href="contactos.php">Contactos</a></li>
                     <li class="user">
-                        <ul class="guest">
-                            <li><a href="login.php">Login</a></li>
-                            <li><a href="signup.php">Registar</a></li>
-                        </ul>
+                        <?php if(!isset($_SESSION["userId"])){ ?>
+                            <ul class="guest">
+                                <li><a href="login.php">Login</a></li>
+                                <li><a href="signup.php">Registar</a></li>
+                            </ul>
+                        <?php } else{ ?>
+                            <div class="dropdown-toggle"><i class="fas fa-chevron-down"></i>
+                                <?php 
+                                    if(isset($_SESSION['activated']) && $_SESSION['activated']){
+                                        echo $_SESSION['clientfirstName'] . " " . $_SESSION['clientLastName']; 
+                                    } else{
+                                        echo $_SESSION['username'];
+                                    }
+                                ?>
+                            </div>
+                            <ul class="dropdown">
+                                <li><a href="perfil.php">Perfil</a></li>
+                                <li><a href="">Marcaçoes</a></li>
+                                <?php if($_SESSION["accountType"] === 'admin'){ ?>
+                                    <li><a href="">Administrador</a></li>
+                                <?php } ?>
+                                <li>
+                                    <form action="php/includes/logout.inc.php" method="post">
+                                        <button>Logout</button>
+                                    </form>
+                                </li>
+                            </ul>
+                        <?php } ?>
                     </li>
                 </ul>
             </nav>

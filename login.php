@@ -1,16 +1,23 @@
+<?php 
+    session_start();
+    if(isset($_SESSION["userId"])){ 
+        header("Location: index.php"); 
+        die();
+    }
+?>
 <!DOCTYPE html>
 <html lang="pt">
     <head>
         <!-- Titulo & Descrição -->
-        <title>MyHome - Registar</title>
-        <meta name="description" content="MyHome - Registar.">
+        <title>MyHome - Login</title>
+        <meta name="description" content="MyHome - Login">
         <meta name="author" content="Marco Martins">
         <!-- Browser -->
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <!-- Style -->
         <link rel="stylesheet" href="css/style.css">
-        <link rel="stylesheet" href="css/signup.css">
+        <link rel="stylesheet" href="css/login.css">
         <link rel="shortcut icon" href="img/logo.jpg" type="image/x-icon">
         <!-- Script -->
         <script src="https://kit.fontawesome.com/d132031da6.js" crossorigin="anonymous"></script>
@@ -39,32 +46,32 @@
             </nav>
         </header>
         <main>
-            <div class="form-container">
-                <h1>Registar</h1>
-                <form action="includes/signup.inc.php" method="post">
-                    <div class="field-container required">
+        <div class="form-container <?php if (isset($_SESSION["loginError"])) { echo 'invalid'; } ?>">
+                <h1>Login</h1>
+                <form action="includes/login.inc.php" method="post">
+                    <div class="field-container">
                         <div class="field">
                             <label for="username">Username:</label>
                             <input type="text" name="username">
                         </div>
-                        <div class="error"></div>
                     </div>
-                    <div class="field-container required">
+                    <div class="field-container">
                         <div class="field">
                             <label for="pwd">Password:</label>
                             <input type="password" name="pwd">
                         </div>
-                        <div class="error"></div>
                     </div>
-                    <div class="field-container required">
-                        <div class="field">
-                            <label for="confirmPwd">Confirma a Password:</label>
-                            <input type="password" name="confirmPwd">
-                        </div>
-                        <div class="error"></div>
-                    </div>
-                    <p>Campos de preenchimento obrigatório.</p>
-                    <button>Registar</button>
+                    <?php 
+                        if (isset($_SESSION["loginError"])){
+                            $error = $_SESSION['loginError']['login'];
+                            echo "<div class='error'>".$error."</div>";
+                            unset($_SESSION['loginError']);
+                        } else{
+                            echo "<div class='error'></div>";
+                        }
+                    ?>
+                    
+                    <button>Entrar</button>
                 </form>
             </div>
         </main>
@@ -72,15 +79,20 @@
         <footer>
             <div>&copy; 2025 - MyHome</div>
         </footer>
-        <script>    //mostra um alarta caso o registo falhe
+        <script>    //mostra uma alerta caso o registo seja bem sucedido ou o login falhe
             const params = new URLSearchParams(window.location.search);
-            const status = params.get('signup');
+            const signupStatus = params.get('signup');
+            const loginStatus = params.get('login');
 
-            if (status === 'failed') {
-                alert("O Registo Falhou! Tente novamente.");
+            if (signupStatus === 'success') {
+                alert("Registo bem-sucedido!");
             }
+            if (loginStatus === 'failed') {
+                alert("O Login Falhou! Tente novamente.");
+            }
+            
         </script>
         <script src="js/menu.js"></script>
-        <script src="js/signupValidate.js"></script>
+        <script src="js/loginValidate.js"></script>
     </body>
 </html>

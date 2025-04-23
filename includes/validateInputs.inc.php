@@ -13,6 +13,23 @@ function usernameExists($username) {
     return $result;
 }
 
+
+
+if (isset($_POST['loginusername'])){
+    $input = trim($_POST['loginusername']);
+
+    if (empty($input)) {
+        $error = "O nome de utilizador é obrigatório.";
+    } elseif (!empty($input) && !preg_match('/^[a-zA-Z0-9_]+$/', $input)) {
+        $error = "Só são permitidos letras, números e underscores.";
+    } else {
+        $error = "";
+    }
+
+    echo $error;
+}
+
+
 if (isset($_POST['username'])){
     $input = htmlspecialchars(trim($_POST['username']));
     $required = filter_var($_POST['required'] ?? false, FILTER_VALIDATE_BOOLEAN);
