@@ -188,6 +188,6 @@
             <div>&copy; 2025 - MyHome</div>
         </footer>
         <script src="js/navMenu.js"></script>
-        <script src="js/profileValidate.js"></script>
+        <!-- <script src="js/profileValidate.js"></script> -->
     </body>
 </html>

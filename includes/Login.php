@@ -73,7 +73,7 @@ class Login{
     public function login(){
         $userData = $this->getUserData();
 
-        //validation
+        //Validaçao de dados
         if ($this->isInputEmpty($this->username) || $this->isInputEmpty($this->pwd)){
             $this->errors["login"] = "Campos de preenchimento obrigatório!";
         }
@@ -86,7 +86,7 @@ class Login{
             $this->errors["login"] = "A password está incorreta.";
         }
 
-        //Errors
+        //Erros
         if ($this->errors){
             header("Location: ../login.php?login=failed");
             $_SESSION["loginError"] = $this->errors;

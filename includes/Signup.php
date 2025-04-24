@@ -53,6 +53,7 @@ class Signup{
             return false;
         }
     }
+
     private function isPwdNoMatch(){
         if ($this->pwd !== $this->confirmPwd){
             return true;
@@ -60,6 +61,7 @@ class Signup{
             return false;
         }
     }
+
     private function isUsernameTaken(){
         if ($this->getUsername()){
             return true;
@@ -67,6 +69,7 @@ class Signup{
             return false;
         }
     }
+
     private function isInputInvalid($input){
         if (!preg_match("/^[a-zA-Z0-9_]+$/", $input)){
             return true;
@@ -74,6 +77,7 @@ class Signup{
             return false;
         }
     }
+
     private function isPwdShort($input){
         if(strlen($input) < 3){
             return true;
@@ -104,7 +108,7 @@ class Signup{
         } else if ($this->isPwdNoMatch()){
             $this->errors["pwd"] = "noMatch";
         }
-        //Errors
+        //Erros
         if ($this->errors){
             header("Location: ../signup.php?signup=failed");
             die();

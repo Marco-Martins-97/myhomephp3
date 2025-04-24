@@ -27,14 +27,12 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     try { 
         require_once "Profile.php";
         $cliente = new Profile($username);
-        // $cliente -> signup();
+        $cliente -> saveClientData($firstName, $lastName, $email, $birthDate, $nif, $phone, $clientAddress, $district);
         
-
     } catch (PDOException $e) {
         die ("Query Falhou: ".$e->getMessage());
     }
 
 } else{
-    header("Location: ../signup.php"); //retorna a pagina principal
-    die();
+    header("Location: ../profile.php");
 }
