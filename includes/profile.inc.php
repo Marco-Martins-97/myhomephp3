@@ -1,0 +1,40 @@
+<?php
+session_start();
+
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
+    $username = isset($_POST["username"]) ? htmlspecialchars(trim($_POST["username"])) : $_SESSION["username"];
+    
+    $firstName = htmlspecialchars(trim($_POST["firstName"]));
+    $lastName = htmlspecialchars(trim($_POST["lastName"]));
+    $email = filter_input(INPUT_POST, "email", FILTER_VALIDATE_EMAIL);
+    $birthDate = htmlspecialchars(trim($_POST["birthDate"]));
+    $nif = filter_input(INPUT_POST, "nif", FILTER_SANITIZE_NUMBER_INT);
+    $phone = filter_input(INPUT_POST, "phone", FILTER_SANITIZE_NUMBER_INT);
+    $clientAddress = htmlspecialchars(trim($_POST["clientAddress"]));
+    $district = htmlspecialchars(trim($_POST["district"]));
+    
+    echo "Username: ".$username."<br><br>";
+    echo "firstName: ".$firstName."<br>";
+    echo "email: ".$email."<br>";
+    echo "birthDate: ".$birthDate."<br>";
+    echo "nif: ".$nif."<br>";
+    echo "phone: ".$phone."<br>";
+    echo "nif: ".$nif."<br>";
+    echo "clientAddress: ".$clientAddress."<br>";
+    echo "district: ".$district."<br>";
+
+
+    try { 
+        require_once "Profile.php";
+        $cliente = new Profile($username);
+        // $cliente -> signup();
+        
+
+    } catch (PDOException $e) {
+        die ("Query Falhou: ".$e->getMessage());
+    }
+
+} else{
+    header("Location: ../signup.php"); //retorna a pagina principal
+    die();
+}

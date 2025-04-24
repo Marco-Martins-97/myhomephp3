@@ -21,7 +21,7 @@
         <link rel="shortcut icon" href="img/logo.jpg" type="image/x-icon">
         <!-- Script -->
         <script src="https://kit.fontawesome.com/d132031da6.js" crossorigin="anonymous"></script>
-        <script src="https://code.jquery.com/jquery-3.7.1.min.js" crossorigin="anonymous"></script>
+        <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     </head>
     <body>
         <!-- Header -->

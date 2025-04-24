@@ -1,0 +1,115 @@
+main{
+    min-height: 100vh;
+    display: flex;
+}
+.form-container{
+    width: 100%;
+    max-width: 768px;
+    margin: auto;
+    padding: 20px;
+    text-align: center;
+    background-color: #f5f5f5;
+    border-radius: 10px;
+    box-shadow: 0 0 10px #0000001a;
+}
+
+.form-container h1{
+    margin-bottom: 20px;
+    font-size: 3rem;
+    color: #333;
+    background-color: #ddd;
+    border-radius: 10px;
+    padding: 5px;
+    box-shadow: 0 0 5px #0000001a;
+}
+
+.form-container form{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.form-container button{
+    margin: auto;
+    padding: 0.5rem 1rem;
+    background-color: #333;
+    color: #ccc;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.form-container button:hover{
+    background-color: #222;
+    color: #fff;
+}
+
+/* FIELDS */
+
+.field{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;  
+
+}
+
+.field label{
+    font-weight: bold;
+    color: #333;
+    font-size: 0.9rem;
+}
+.field input, .field select{
+    flex: 1;
+    width: 90%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    color: #333;
+    background-color: #fff;
+}
+
+.form-container p{
+    text-align: left;
+    font-size: 0.7rem;
+    font-weight: bold;
+}
+.form-container p::before{
+    content: "*";
+    color: red;
+    font-size: 1.1rem;
+}
+
+.field-container.required label::after{
+    content: "*";
+    color: red;
+    font-size: 1.1rem;
+}
+
+.error{
+    display: none;
+    color: red;
+    font-size: 0.8rem;
+    font-weight: bold;
+    text-align: center;
+    padding-top: 3px;
+}
+
+.field-container.invalid .error{
+    display: block;
+}
+
+
+@media (min-width: 768px){
+    .field{
+        flex-direction: row;
+    }
+    .field input, .field select{
+        max-width: 70%;
+    }
+    .error{
+        text-align: right;
+    }
+}

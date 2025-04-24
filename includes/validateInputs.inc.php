@@ -4,8 +4,8 @@ require_once 'Dbh.php';
 function usernameExists($username) {
     $dbh = new Dbh();
     $conn = $dbh->connect();
-    $query = "SELECT * FROM users WHERE username = :username;";
-    $stmt = $conn->prepare($query);
+    $sql = "SELECT * FROM users WHERE username = :username;";
+    $stmt = $conn->prepare($sql);
     $stmt->bindParam(':username', $username);
     $stmt->execute();
     
@@ -13,7 +13,17 @@ function usernameExists($username) {
     return $result;
 }
 
-
+function emailExists($email) {
+    $dbh = new Dbh();
+    $conn = $dbh->connect();
+    $sql = "SELECT * FROM clients WHERE email = :email;";
+    $stmt = $conn->prepare($sql);
+    $stmt->bindParam(':email', $email);
+    $stmt->execute();
+    
+    $result = $stmt->fetch(PDO::FETCH_ASSOC);
+    return $result;
+}
 
 if (isset($_POST['loginusername'])){
     $input = trim($_POST['loginusername']);
@@ -61,6 +71,120 @@ if (isset($_POST['pwd']) && isset($_POST['confirmPwd'])) {
         $error = "A confirmação da password deve ter pelo menos 3 caracteres.";
     } else if (!empty($pwd) && $confirmPwd !== $pwd) {
         $error = "As passwords não coincidem."; 
+    } else {
+        $error = "";
+    }
+    echo  $error;
+}
+
+if (isset($_POST['firstName'])) {
+    $input = trim($_POST['firstName']);
+    $required = filter_var($_POST['required'] ?? false, FILTER_VALIDATE_BOOLEAN);
+
+    if ($required && empty($input)) {
+        $error = "O nome é obrigatório.";
+    } elseif (!empty($input) && !preg_match('/^[a-zA-ZÀ-ÿ\s]+$/', $input)) {
+        $error =  "Só são permitidos letras.";
+    } else {
+        $error = "";
+    }
+    echo  $error;
+}
+
+if (isset($_POST['lastName'])) {
+    $input = trim($_POST['lastName']);
+    $required = filter_var($_POST['required'] ?? false, FILTER_VALIDATE_BOOLEAN);
+
+    if ($required && empty($input)) {
+        $error =  "O apelido é obrigatório.";
+    } elseif (!empty($input) && !preg_match('/^[a-zA-ZÀ-ÿ\s]+$/', $input)) {
+        $error =  "Só são permitidos letras.";
+    } else {
+        $error = "";
+    }
+    echo  $error;
+}
+
+if (isset($_POST['email'])) {
+    $input = trim($_POST['email']);
+    $required = filter_var($_POST['required'] ?? false, FILTER_VALIDATE_BOOLEAN);
+
+    if ($required && empty($input)) {
+        $error =  "O email é obrigatório.";
+    } elseif (!empty($input) && !filter_var($input, FILTER_VALIDATE_EMAIL)) {
+        $error =  "O email não é válido.";
+    } elseif (!empty($input) && emailExists($input)) {
+        $error =  "Este email já está registado.";
+    } else {
+        $error = "";
+    }
+    echo  $error;
+}
+
+if (isset($_POST['birthDate'])) {
+    $input = trim($_POST['birthDate']);
+    $required = filter_var($_POST['required'] ?? false, FILTER_VALIDATE_BOOLEAN);
+
+    if ($required && empty($input)) {
+        $error =  "A data de nascimento é obrigatória.";
+    } elseif (!empty($input) && !preg_match('/^\d{4}-\d{2}-\d{2}$/', $input)) {
+        $error =  "A data de nascimento não é válida.";
+    } else {
+        $error = "";
+    }
+    echo  $error;
+}
+
+if (isset($_POST['nif'])) {
+    $input = trim($_POST['nif']);
+    $required = filter_var($_POST['required'] ?? false, FILTER_VALIDATE_BOOLEAN);
+
+    if ($required && empty($input)) {
+        $error =  "O NIF é obrigatório.";
+    } elseif (!empty($input) && !preg_match('/^\d{9}$/', $input)) {
+        $error =  "O NIF não é válido.";
+    } else {
+        $error = "";
+    }
+    echo  $error;
+}
+
+if (isset($_POST['phone'])) {
+    $input = trim($_POST['phone']);
+    $required = filter_var($_POST['required'] ?? false, FILTER_VALIDATE_BOOLEAN);
+
+    if ($required && empty($input)) {
+        $error =  "O telefone é obrigatório.";
+    } elseif (!empty($input) && !preg_match('/^\d{9}$/', $input)) {
+        $error =  "O telefone não é válido.";
+    } else {
+        $error = "";
+    }
+    echo  $error;
+}
+
+if (isset($_POST['clientAddress'])) {
+    $input = trim($_POST['clientAddress']);
+    $required = filter_var($_POST['required'] ?? false, FILTER_VALIDATE_BOOLEAN);
+
+    if ($required && empty($input)) {
+        $error =  "A morada é obrigatória.";
+    } elseif (!empty($input) && !preg_match('/^[a-zA-ZÀ-ÿ0-9\s,.-]+$/', $input)) {
+        $error =  "A morada não é válida.";
+    } else {
+        $error = "";
+    }
+    echo  $error;
+}
+
+if (isset($_POST['district'])) {
+    $input = trim($_POST['district']);
+    $required = filter_var($_POST['required'] ?? false, FILTER_VALIDATE_BOOLEAN);
+
+    if ($required && empty($input)) {
+        $error =  "O distrito é obrigatório.";
+    } elseif (!empty($input) && !preg_match('/^[a-zA-ZÀ-ÿ\s]+$/', $input)) {
+        $error =  "O distrito não é válido.";
     } else {
         $error = "";
     }
