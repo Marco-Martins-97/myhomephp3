@@ -3,15 +3,15 @@
 <html lang="pt">
     <head>
         <!-- Titulo & Descrição -->
-        <title>MyHome</title>
-        <meta name="description" content="MyHome - Especialistas em casas modulares personalizadas, oferecendo soluções inovadoras e sustentáveis para o seu lar ideal.">
+        <title>MyHome - Perfil</title>
+        <meta name="description" content="MyHome - Perfil de Cliente">
         <meta name="author" content="Marco Martins">
         <!-- Browser -->
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <!-- Style -->
         <link rel="stylesheet" href="css/style.css">
-        <link rel="stylesheet" href="css/main.css">
+        <link rel="stylesheet" href="css/profile.css">
         <link rel="shortcut icon" href="img/logo.jpg" type="image/x-icon">
         <!-- Script -->
         <script src="https://kit.fontawesome.com/d132031da6.js" crossorigin="anonymous"></script>
@@ -63,8 +63,7 @@
             </nav>
         </header>
         <main>
-            <section id="news-feed">NEWS</section>
-            <section id="catalogo">CATALOGO</section>
+
         </main>
         <!-- Footer -->
         <footer>

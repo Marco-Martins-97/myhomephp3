@@ -15,3 +15,5 @@ print_r($_SESSION);
 echo '</pre>';
 
 // unset($_SESSION["accountType"]);
+
+// $_SESSION["activated"] = 0;

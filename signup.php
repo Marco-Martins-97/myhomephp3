@@ -1,3 +1,10 @@
+<?php 
+    session_start();
+    if(isset($_SESSION["userId"])){ 
+        header("Location: index.php"); 
+        die();
+    }
+?>
 <!DOCTYPE html>
 <html lang="pt">
     <head>

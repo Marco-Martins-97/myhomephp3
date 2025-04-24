@@ -1,8 +1,8 @@
 document.addEventListener("DOMContentLoaded", () => {
     
-    function toggleMenu(toggle, menu, icon, iconBefore, iconAfter) {
-        toggle.addEventListener('click', function() {
-            menu.classList.toggle('active');
+    function toggleMenu(toggleBtn, _menu, icon, iconBefore, iconAfter) {
+        toggleBtn.addEventListener('click', function() {
+            _menu.classList.toggle('active');
 
             if(icon.classList.contains(iconBefore)){
                 icon.classList.remove(iconBefore);
@@ -19,4 +19,10 @@ document.addEventListener("DOMContentLoaded", () => {
     const menuIcon = menuToggle.querySelector('i');
     toggleMenu(menuToggle, menu, menuIcon, 'fa-bars', 'fa-times');
 
+    const dropdownToggle = document.querySelector('.dropdown-toggle');
+    if(dropdownToggle) {
+        const dropdown = document.querySelector('.dropdown')
+        const dropdownIcon = dropdownToggle.querySelector('i');
+        toggleMenu(dropdownToggle, dropdown, dropdownIcon, 'fa-chevron-down', 'fa-chevron-up');
+    }
 });
