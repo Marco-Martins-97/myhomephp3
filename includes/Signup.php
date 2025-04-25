@@ -27,8 +27,7 @@ class Signup{
         $stmt->bindParam(':username', $this->username);
         $stmt->execute();
         
-        $result = $stmt->fetch(PDO::FETCH_ASSOC);
-        return $result;
+        return $stmt->fetch(PDO::FETCH_ASSOC) ? true : false;
     }
 
     private function createNewUser(){

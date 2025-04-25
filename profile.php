@@ -172,13 +172,21 @@
                         <button type="submit">
                             <?php
                                 if($_SESSION['activated']){
-                                    echo "Salvar"; 
+                                    echo "<i class='fa fa-save'></i> Salvar"; 
                                 } else{
-                                    echo "Activar Conta";
+                                    echo "<i class='fa fa-check'></i> Activar Conta";
                                 }
                             ?>
                         </button>
-                        <button type="reset">Apagar</button>
+                        <button type="reset">
+                            <?php
+                                if($_SESSION['activated']){
+                                    echo "<i class='fa fa-undo'></i> Repor"; 
+                                } else{
+                                    echo "<i class='fa fa-trash'></i> Apagar";
+                                }
+                            ?>
+                        </button>
                     </div>
                 </form>
             </div>

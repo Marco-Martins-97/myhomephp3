@@ -7,6 +7,11 @@ $(document).ready(function(){
             if (status === "success") {
                 data = JSON.parse(data);
 
+                if (data.error) {
+                    console.log(data.error);
+                    return;
+                }
+
                 $clientEmail = data.email;
                 // $("input[name='username']").val(data.username);
                 $("input[name='firstName']").val(data.firstName);
@@ -17,8 +22,6 @@ $(document).ready(function(){
                 $("input[name='phone']").val(data.phone);
                 $("input[name='clientAddress']").val(data.clientAddress);
                 $("select[name='district']").val(data.district);
-            } else {
-                console.error("Error status:", status);
             }
         });
     }
@@ -105,6 +108,8 @@ $(document).ready(function(){
             console.log("Formulario Valido!");
             $('form').unbind('submit').submit();
         }
-        console.log("Formulario Invalido!");
+        else{
+            console.log("Formulario Invalido!");
+        }
     });
 });

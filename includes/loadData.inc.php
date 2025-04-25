@@ -10,7 +10,7 @@ if(!isset($_SESSION["username"])){
     $username =  $_SESSION["username"];
     
     $client = new Profile($username);
-    if ($client->userExists()){
+    if ($client->userExists() && $client->userExists()["activated"] === 1){   //verifica se o user existe e esta ativo
         try { 
             $clientData = $client->getClientData();
 
@@ -30,5 +30,7 @@ if(!isset($_SESSION["username"])){
         } catch (PDOException $e) {
             die ("Query Falhou: ".$e->getMessage());
         }
+    } else{
+        echo json_encode(["error" => "User nao está ativo"]);
     }
 }

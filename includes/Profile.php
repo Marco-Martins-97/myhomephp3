@@ -21,13 +21,25 @@ class Profile{
 
     //SQL
     public function userExists(){
-        $sql = "SELECT * FROM users WHERE username = :username;";
+        $sql = "SELECT activated FROM users WHERE username = :username;";
         $stmt = $this->conn->prepare($sql);
         $stmt->bindParam(":username", $this->username);
         $stmt->execute();
 
-        return $stmt->fetch(PDO::FETCH_ASSOC) ? true : false;
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $result;
+        //return $stmt->fetch(PDO::FETCH_ASSOC) ? true : false;
     }
+
+   /*  public function isUserActive(){
+        $sql = "SELECT activated FROM users WHERE username = :username;";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindParam(":username", $this->username);
+        $stmt->execute();
+
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $result;
+    } */
 
     public function getClientData(){
         $userId = $this->userData["id"];
@@ -242,6 +254,8 @@ class Profile{
         if ($activated){
             $this->updateClientInDatabase($firstName, $lastName, $email, $birthDate, $nif, $phone, $clientAddress, $district, $userId);
             echo "Atualizado com  sucesso";
+            $_SESSION["clientfirstName"] = $firstName;
+            $_SESSION["clientLastName"] = $lastName;
         } else{
             $this->createClientInDatabase($firstName, $lastName, $email, $birthDate, $nif, $phone, $clientAddress, $district, $userId);
             echo "Criado com sucesso <br>";
