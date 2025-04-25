@@ -28,6 +28,16 @@ class Login{
         $result = $stmt -> fetch(PDO::FETCH_ASSOC);
         return $result;
     }
+    
+    private function getClientData($userId){
+        $sql = "SELECT * FROM clients WHERE userId = :userId;";
+        $stmt = $this->conn->prepare($sql);
+        $stmt -> bindParam(":userId", $userId);
+        $stmt -> execute();
+
+        $result = $stmt -> fetch(PDO::FETCH_ASSOC);
+        return $result;
+    }
 
     //Verficação de dados
     private function isInputEmpty($input){
@@ -56,18 +66,20 @@ class Login{
 
     //Cria Sessão
     private function createSessionId($userData){
+        $userId = $userData["id"];
         $newSessionId = session_create_id();
-        $this->sessionId = $newSessionId."_".$userData["id"];
+        $this->sessionId = $newSessionId."_".$userId;
         session_id($this->sessionId);
         
-        $_SESSION["userId"] = $userData["id"];
+        $_SESSION["userId"] = $userId;
         $_SESSION["username"] = $userData["username"];
         $_SESSION["userRole"] = $userData["userRole"];
         $_SESSION["activated"] = $userData["activated"];
-       /*  if ($userData["activated"]){
+        if ($userData["activated"]){
+            $clientData = $this->getClientData($userId);
             $_SESSION["clientfirstName"] = $clientData["firstName"];
             $_SESSION["clientLastName"] = $clientData["lastName"];
-        } */
+        }
         $_SESSION["last_regeneration"] = time();
     }
 

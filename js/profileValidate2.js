@@ -1,4 +1,28 @@
 $(document).ready(function(){
+    $clientEmail = "";
+    loadClientProfile();
+    
+    function loadClientProfile() {
+        $.post("includes/loadData.inc.php", function (data, status) {
+            if (status === "success") {
+                data = JSON.parse(data);
+
+                $clientEmail = data.email;
+                // $("input[name='username']").val(data.username);
+                $("input[name='firstName']").val(data.firstName);
+                $("input[name='lastName']").val(data.lastName);
+                $("input[name='email']").val(data.email);  
+                $("input[name='birthDate']").val(data.birthDate.split(" ")[0]);
+                $("input[name='nif']").val(data.nif);
+                $("input[name='phone']").val(data.phone);
+                $("input[name='clientAddress']").val(data.clientAddress);
+                $("select[name='district']").val(data.district);
+            } else {
+                console.error("Error status:", status);
+            }
+        });
+    }
+
     function checkEmptyFields() {
         let emptyFields = false;
         $.each($("input, select"), function() {
@@ -41,7 +65,13 @@ $(document).ready(function(){
         validateField(this);
     });
     $("input[name='email']").on('input keyup', function () {
-        validateField(this);
+        if ($(this).val() === $clientEmail) {
+            console.log("same email");
+            $(this).closest(".field-container").removeClass("invalid");
+        }else{
+            console.log("changed email");
+            validateField(this);
+        }
     });
     $("input[name='birthDate']").on('input keyup', function () {
         validateField(this);
@@ -61,7 +91,7 @@ $(document).ready(function(){
 
 
     $('form').on('reset', function() {
-        // loadClientProfile();
+        loadClientProfile();
         $.each($("input, select"), function() {
             if ($(this).closest(".field-container").hasClass("invalid")) {
                 $(this).closest(".field-container").removeClass("invalid");
@@ -72,8 +102,9 @@ $(document).ready(function(){
     $('form').on('submit', function(e) {
         e.preventDefault(); 
         if (!checkEmptyFields() && !checkErrors()) {
-            console.log("Formulario Valido!")
+            console.log("Formulario Valido!");
             $('form').unbind('submit').submit();
         }
+        console.log("Formulario Invalido!");
     });
 });

@@ -9,8 +9,7 @@ function usernameExists($username) {
     $stmt->bindParam(':username', $username);
     $stmt->execute();
     
-    $result = $stmt->fetch(PDO::FETCH_ASSOC);
-    return $result;
+    return $stmt->fetch(PDO::FETCH_ASSOC) ? true : false;
 }
 
 function emailExists($email) {
@@ -21,8 +20,7 @@ function emailExists($email) {
     $stmt->bindParam(':email', $email);
     $stmt->execute();
     
-    $result = $stmt->fetch(PDO::FETCH_ASSOC);
-    return $result;
+    return $stmt->fetch(PDO::FETCH_ASSOC) ? true : false;
 }
 
 if (isset($_POST['loginusername'])){

@@ -2,7 +2,8 @@
 session_start();
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
-    $username = isset($_POST["username"]) ? htmlspecialchars(trim($_POST["username"])) : $_SESSION["username"];
+    // $username = isset($_POST["username"]) ? htmlspecialchars(trim($_POST["username"])) : $_SESSION["username"];
+    $username = $_SESSION["username"];
     
     $firstName = htmlspecialchars(trim($_POST["firstName"]));
     $lastName = htmlspecialchars(trim($_POST["lastName"]));
@@ -26,8 +27,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
     try { 
         require_once "Profile.php";
-        $cliente = new Profile($username);
-        $cliente -> saveClientData($firstName, $lastName, $email, $birthDate, $nif, $phone, $clientAddress, $district);
+        $client = new Profile($username);
+        $client -> saveClientData($firstName, $lastName, $email, $birthDate, $nif, $phone, $clientAddress, $district);
         
     } catch (PDOException $e) {
         die ("Query Falhou: ".$e->getMessage());

@@ -20,6 +20,26 @@ class Profile{
     }
 
     //SQL
+    public function userExists(){
+        $sql = "SELECT * FROM users WHERE username = :username;";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindParam(":username", $this->username);
+        $stmt->execute();
+
+        return $stmt->fetch(PDO::FETCH_ASSOC) ? true : false;
+    }
+
+    public function getClientData(){
+        $userId = $this->userData["id"];
+        $query = "SELECT * FROM clients WHERE userId = :userId;";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':userId', $userId);
+        $stmt->execute();
+        
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $result;
+    }
+
     private function getUserData(){
         $sql = "SELECT * FROM users WHERE username = :username;";
         $stmt = $this->conn->prepare($sql);
@@ -31,7 +51,7 @@ class Profile{
     }
 
     private function getEmail($input){
-        $sql = "SELECT * FROM clients WHERE email = :email";
+        $sql = "SELECT email, userId FROM clients WHERE email = :email";
         $stmt = $this->conn->prepare($sql);
         $stmt->bindParam(":email", $input);
         $stmt->execute();
@@ -40,7 +60,7 @@ class Profile{
         return $result;
     }
 
-    private function createClientInDatabase($firstName, $lastName, $email, $birthDate, $nif, $phone, $clientAddress, $district){
+    private function createClientInDatabase($firstName, $lastName, $email, $birthDate, $nif, $phone, $clientAddress, $district, $userId){
         $sql = "INSERT INTO clients (firstName, lastName, email, birthDate, nif, phone, clientAddress, district, userId) 
                 VALUES (:firstName, :lastName, :email, :birthDate, :nif, :phone, :clientAddress, :district, :userId)";
         $stmt = $this->conn->prepare($sql);
@@ -56,10 +76,10 @@ class Profile{
         $stmt->execute();    
     }
     
-    private function updateClientInDatabase($firstName, $lastName, $email, $birthDate, $nif, $phone, $clientAddress, $district){
+    private function updateClientInDatabase($firstName, $lastName, $email, $birthDate, $nif, $phone, $clientAddress, $district, $userId){
         $sql = "UPDATE clients 
                 SET firstName = :firstName, lastName = :lastName, email = :email, birthDate = :birthDate, nif = :nif, phone = :phone, clientAddress = :clientAddress, district = :district
-                WHERE clientId = :clientId";
+                WHERE userId = :userId";
         $stmt = $this->conn->prepare($sql);
         $stmt->bindParam(':firstName', $firstName);
         $stmt->bindParam(':lastName', $lastName);
@@ -115,8 +135,17 @@ class Profile{
         }
     }
 
+    private function isEmailSame($input){
+        $data = $this->getEmail($input);
+        if($data["userId"] === $this->userData["id"]){
+            return true;
+        } else{
+            return false;
+        }
+    }
+
     private function isEmailTaken($input){
-        if ($this->getEmail($input)){
+        if ($this->getEmail($input) && !$this->isEmailSame($input)){
             return true;
         } else{
             return false;
@@ -149,7 +178,6 @@ class Profile{
 
 
     public function saveClientData($firstName, $lastName, $email, $birthDate, $nif, $phone, $clientAddress, $district){
-        //$userData = $this->getUserData();
         //Validaçao de dados
         if ($this->isInputRequired("firstName") && $this->isInputEmpty($firstName)){
             $this->errors["firstName"] = "empty";

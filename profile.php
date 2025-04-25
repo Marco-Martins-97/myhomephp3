@@ -98,7 +98,7 @@
                         <div class="error"></div>
                     </div>
 
-                    <div class="field-container">
+                    <div class="field-container required">
                         <div class="field">
                             <label for="email">Email:</label>
                             <input type="email" name="email">
@@ -106,7 +106,7 @@
                         <div class="error"></div>
                     </div>
 
-                    <div class="field-container">
+                    <div class="field-container required">
                         <div class="field">
                             <label for="birthDate">Data de Nascimento:</label>
                             <input type="date" name="birthDate">
@@ -188,6 +188,6 @@
             <div>&copy; 2025 - MyHome</div>
         </footer>
         <script src="js/navMenu.js"></script>
-        <script src="js/profileValidate.js"></script>
+        <script src="js/profileValidate2.js"></script>
     </body>
 </html>
