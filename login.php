@@ -92,7 +92,7 @@
             }
             
         </script>
-        <script src="js/menu.js"></script>
+        <script src="js/navMenu.js"></script>
         <script src="js/loginValidate.js"></script>
     </body>
 </html>

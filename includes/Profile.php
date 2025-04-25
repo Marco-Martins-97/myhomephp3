@@ -31,20 +31,10 @@ class Profile{
         //return $stmt->fetch(PDO::FETCH_ASSOC) ? true : false;
     }
 
-   /*  public function isUserActive(){
-        $sql = "SELECT activated FROM users WHERE username = :username;";
-        $stmt = $this->conn->prepare($sql);
-        $stmt->bindParam(":username", $this->username);
-        $stmt->execute();
-
-        $result = $stmt->fetch(PDO::FETCH_ASSOC);
-        return $result;
-    } */
-
     public function getClientData(){
         $userId = $this->userData["id"];
-        $query = "SELECT * FROM clients WHERE userId = :userId;";
-        $stmt = $this->conn->prepare($query);
+        $sql = "SELECT * FROM clients WHERE userId = :userId;";
+        $stmt = $this->conn->prepare($sql);
         $stmt->bindParam(':userId', $userId);
         $stmt->execute();
         
@@ -254,19 +244,20 @@ class Profile{
         if ($activated){
             $this->updateClientInDatabase($firstName, $lastName, $email, $birthDate, $nif, $phone, $clientAddress, $district, $userId);
             echo "Atualizado com  sucesso";
-            $_SESSION["clientfirstName"] = $firstName;
-            $_SESSION["clientLastName"] = $lastName;
+            if($this->username === $_SESSION["username"]){
+                $_SESSION["clientfirstName"] = $firstName;
+                $_SESSION["clientLastName"] = $lastName;
+            }
         } else{
             $this->createClientInDatabase($firstName, $lastName, $email, $birthDate, $nif, $phone, $clientAddress, $district, $userId);
             echo "Criado com sucesso <br>";
             $this->activateAccount(1);
             echo "Conta Ativada";
-            $_SESSION["clientfirstName"] = $firstName;
-            $_SESSION["clientLastName"] = $lastName;
+            if($this->username === $_SESSION["username"]){
+                $_SESSION["clientfirstName"] = $firstName;
+                $_SESSION["clientLastName"] = $lastName;
+            }
         
         }
-
-        header("Location: ../profile.php?save=success");
-        die();
     }
 }

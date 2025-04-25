@@ -87,7 +87,7 @@
                 alert("O Registo Falhou! Tente novamente.");
             }
         </script>
-        <script src="js/menu.js"></script>
+        <script src="js/navMenu.js"></script>
         <script src="js/signupValidate.js"></script>
     </body>
 </html>

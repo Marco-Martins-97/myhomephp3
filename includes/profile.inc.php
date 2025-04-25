@@ -2,8 +2,7 @@
 session_start();
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
-    // $username = isset($_POST["username"]) ? htmlspecialchars(trim($_POST["username"])) : $_SESSION["username"];
-    $username = $_SESSION["username"];
+    $username = isset($_POST["username"]) ? htmlspecialchars(trim($_POST["username"])) : $_SESSION["username"];
     
     $firstName = htmlspecialchars(trim($_POST["firstName"]));
     $lastName = htmlspecialchars(trim($_POST["lastName"]));
@@ -30,6 +29,12 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $client = new Profile($username);
         $client -> saveClientData($firstName, $lastName, $email, $birthDate, $nif, $phone, $clientAddress, $district);
         
+        if(strpos($_SERVER['HTTP_REFERER'], 'administrator.php')){
+            header("Location: " . $_SERVER['HTTP_REFERER']."?saved=success#clients");
+        } else{
+            header("Location: ../profile.php?saved=success");
+        }
+        die();
     } catch (PDOException $e) {
         die ("Query Falhou: ".$e->getMessage());
     }

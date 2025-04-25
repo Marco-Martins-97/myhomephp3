@@ -25,7 +25,7 @@
                 <ul class="menu">
                     <li><a href="index.php">Home</a></li>    
                     <li class="mobile-only"><a href="index.php#news-feed">Notícias</a></li>
-                    <li><a href="index.php#catalogo">Catálogo</a></li>
+                    <li><a href="index.php#catalog">Catálogo</a></li>
                     <li><a href="index.php#orcamento">Orçamento</a></li>
                     <li><a href="contactos.php">Contactos</a></li>
                     <li class="user">
@@ -64,7 +64,7 @@
         </header>
         <main>
             <section id="news-feed">NEWS</section>
-            <section id="catalogo">CATALOGO</section>
+            <section id="catalog">CATALOGO</section>
         </main>
         <!-- Footer -->
         <footer>

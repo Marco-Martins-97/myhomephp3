@@ -6,8 +6,8 @@ if(!isset($_SESSION["username"])){
     header("Location: ../index.php"); 
     die();
 } else{
-    //$username = !empty($_POST["username"]) ? htmlspecialchars(trim($_POST["username"])) : $_SESSION["username"];
-    $username =  $_SESSION["username"];
+    $username = !empty($_POST["username"]) ? htmlspecialchars(trim($_POST["username"])) : $_SESSION["username"];
+    //$username =  $_SESSION["username"];
     
     $client = new Profile($username);
     if ($client->userExists() && $client->userExists()["activated"] === 1){   //verifica se o user existe e esta ativo
