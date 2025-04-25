@@ -15,11 +15,11 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     
     echo "Username: ".$username."<br><br>";
     echo "firstName: ".$firstName."<br>";
+    echo "lastName: ".$lastName."<br>";
     echo "email: ".$email."<br>";
     echo "birthDate: ".$birthDate."<br>";
     echo "nif: ".$nif."<br>";
     echo "phone: ".$phone."<br>";
-    echo "nif: ".$nif."<br>";
     echo "clientAddress: ".$clientAddress."<br>";
     echo "district: ".$district."<br>";
 

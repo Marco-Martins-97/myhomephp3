@@ -64,8 +64,10 @@ class Login{
         $_SESSION["username"] = $userData["username"];
         $_SESSION["userRole"] = $userData["userRole"];
         $_SESSION["activated"] = $userData["activated"];
-        // $_SESSION["clientfirstName"] = $clientData["firstName"];
-        // $_SESSION["clientLastName"] = $clientData["lastName"];
+       /*  if ($userData["activated"]){
+            $_SESSION["clientfirstName"] = $clientData["firstName"];
+            $_SESSION["clientLastName"] = $clientData["lastName"];
+        } */
         $_SESSION["last_regeneration"] = time();
     }
 
