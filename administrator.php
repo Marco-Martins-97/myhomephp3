@@ -17,7 +17,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <!-- Style -->
         <link rel="stylesheet" href="css/style.css">
-        <link rel="stylesheet" href="css/administrator.css">
+        <link rel="stylesheet" href="css/administrator2.css">
         <link rel="shortcut icon" href="img/logo.jpg" type="image/x-icon">
         <!-- Script -->
         <script src="https://kit.fontawesome.com/d132031da6.js" crossorigin="anonymous"></script>
@@ -71,10 +71,12 @@
         <main>
             <section id="news-feed">NEWS</section>
             <section id="catalog">CATALOGO</section>
-            <section id="clients">CLIENTES
+            <section id="clients">
                 <div class="search-container">
-                    <input type="text" name="searchUser" id="search-input" placeholder="@username">
-                    <button id="search-clients"><i class="fa fa-search"></i></button>
+                    <div class="search">
+                        <input type="text" name="searchUser" id="search-input" placeholder="@username">
+                        <button id="search-clients"><i class="fa fa-search"></i></button>
+                    </div>
                     <div class="results" id="results"></div>
                 </div>
                 <div class="edit" id="edit">
