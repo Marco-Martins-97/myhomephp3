@@ -1,5 +1,5 @@
 $(document).ready(function(){
-    $('#search-clients').click(function() {
+   $('#search-clients').click(function() {
         let username = $('#search-input').val();
         
         console.log(username);

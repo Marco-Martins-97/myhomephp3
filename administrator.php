@@ -17,7 +17,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <!-- Style -->
         <link rel="stylesheet" href="css/style.css">
-        <link rel="stylesheet" href="css/administrator2.css">
+        <link rel="stylesheet" href="css/administrator3.css">
         <link rel="shortcut icon" href="img/logo.jpg" type="image/x-icon">
         <!-- Script -->
         <script src="https://kit.fontawesome.com/d132031da6.js" crossorigin="anonymous"></script>
@@ -69,7 +69,34 @@
             </nav>
         </header>
         <main>
-            <section id="news-feed">NEWS</section>
+            <section id="news-feed">
+                <button id="create-new">Criar Notícia</button>
+                <button id="edit-new"><i class="fa fa-edit"></i></button>
+                <button id="delete-new"><i class="fa fa-trash"></i></button>
+                <div class="modal" id="news-modal">
+                    <div class="modal-content">
+                        <span id="close-modal">&times;</span>
+                        <h2 id="modal-title"></h2>
+                        <form action="news.inc.php" method="post">
+                            <input type="hidden" name="action">
+                            <div class="field">
+                                <label for="title">Titulo:</label>
+                                <input type="text" name="title">
+                            </div>
+                            <div class="field">
+                                <label for="url">Url:</label>
+                                <input type="text" name="url">
+                            </div>
+                            <div class="field">
+                                <label for="content">Descrição:</label>
+                                <textarea name="content" rows="4"></textarea>
+                            </div>
+                            <button type="submit" id="submit"></button>
+                        </form>
+                    </div>
+                </div>
+                <div class="new-container"></div>
+            </section>
             <section id="catalog">CATALOGO</section>
             <section id="clients">
                 <div class="search-container">
@@ -184,6 +211,7 @@
             <div>&copy; 2025 - MyHome</div>
         </footer>
         <script src="js/navMenu.js"></script>
+        <script src="js/admNews.js"></script>
         <script src="js/admClients.js"></script>
     </body>
 </html>
