@@ -1,33 +1,39 @@
-<?php session_start(); ?>
+<?php 
+    session_start();
+    if(!isset($_SESSION["userRole"]) || $_SESSION["userRole"] !== "admin"){ 
+        header("Location: index.php"); 
+        die();
+    }
+?>
 <!DOCTYPE html>
 <html lang="pt">
     <head>
         <!-- Titulo & Descrição -->
-        <title>MyHome</title>
-        <meta name="description" content="MyHome - Especialistas em casas modulares personalizadas, oferecendo soluções inovadoras e sustentáveis para o seu lar ideal.">
+        <title>MyHome - Administração - Notícias</title>
+        <meta name="description" content="MyHome - Administração - Notícias">
         <meta name="author" content="Marco Martins">
         <!-- Browser -->
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <!-- Style -->
         <link rel="stylesheet" href="css/style.css">
-        <link rel="stylesheet" href="css/main.css">
+        <link rel="stylesheet" href="css/adminNews.css">
         <link rel="shortcut icon" href="img/logo.jpg" type="image/x-icon">
         <!-- Script -->
         <script src="https://kit.fontawesome.com/d132031da6.js" crossorigin="anonymous"></script>
+        <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     </head>
     <body>
         <!-- Header -->
         <header>
             <nav>
-                <a href="index.php" class="mobile-only title">My Home</a>
+                <a href="index.php" class="mobile-only title">My Home - Adm - Notícias</a>
                 <div class="menu-toggle mobile-only"><i class="fas fa-bars"></i></div>
                 <ul class="menu">
                     <li><a href="index.php">Home</a></li>    
-                    <li class="mobile-only"><a href="index.php#news-feed">Notícias</a></li>
-                    <li><a href="index.php#catalog">Catálogo</a></li>
-                    <li><a href="index.php#orcamento">Orçamento</a></li>
-                    <li><a href="contactos.php">Contactos</a></li>
+                    <li><a href="adminNews.php">Notícias</a></li>
+                    <li><a href="adminCatalog.php">Catálogo</a></li>
+                    <li><a href="adminClients.php">Clientes</a></li>
                     <li class="user">
                         <?php if(!isset($_SESSION["userId"])){ ?>
                             <ul class="guest">
@@ -49,7 +55,7 @@
                                 <li><a href="profile.php">Perfil</a></li>
                                 <li><a href="appointments.php">Marcaçoes</a></li>
                                 <?php if($_SESSION["userRole"] === 'admin'){ ?>
-                                    <li><a href="adminNews.php">News</a></li>
+                                    <li><a href="adminNews.php">Notícias</a></li>
                                     <li><a href="adminCatalog.php">Catálogo</a></li>
                                     <li><a href="adminClients.php">Clientes</a></li>
                                 <?php } ?>
@@ -65,13 +71,39 @@
             </nav>
         </header>
         <main>
-            <section id="news-feed">NEWS</section>
-            <section id="catalog">CATALOGO</section>
+            <button id="create-new">Criar Notícia</button>
+            <button id="edit-new"><i class="fa fa-edit"></i></button>
+            <button id="delete-new"><i class="fa fa-trash"></i></button>
+            
+            <div class="modal" id="news-modal">
+                <div class="modal-content">
+                    <span id="close-modal">&times;</span>
+                    <h2 id="modal-title"></h2>
+                    <form action="includes/news.inc.php" method="post">
+                        <input type="hidden" name="new-action">
+                        <div class="field">
+                            <label for="new.title">Titulo:</label>
+                            <input type="text" name="new-title">
+                        </div>
+                        <div class="field">
+                            <label for="new-url">Url:</label>
+                            <input type="text" name="new-url">
+                        </div>
+                        <div class="field">
+                            <label for="new-content">Conteudo:</label>
+                            <textarea name="new-content" rows="4"></textarea>
+                        </div>
+                        <button type="submit" id="submit-new"></button>
+                    </form>
+                </div>
+            </div>
+            <div class="new-container"></div>      
         </main>
         <!-- Footer -->
         <footer>
             <div>&copy; 2025 - MyHome</div>
         </footer>
         <script src="js/navMenu.js"></script>
+        <script src="js/admNews.js"></script>
     </body>
 </html>

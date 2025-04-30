@@ -29,8 +29,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $client = new Profile($username);
         $client -> saveClientData($firstName, $lastName, $email, $birthDate, $nif, $phone, $clientAddress, $district);
         
-        if(strpos($_SERVER['HTTP_REFERER'], 'administrator.php')){
-            header("Location: " . $_SERVER['HTTP_REFERER']."?saved=success#clients");
+        if(strpos($_SERVER['HTTP_REFERER'], 'adminClients.php')){
+            header("Location: " . $_SERVER['HTTP_REFERER']."?saved=success");
         } else{
             header("Location: ../profile.php?saved=success");
         }

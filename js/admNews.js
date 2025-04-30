@@ -1,16 +1,16 @@
 $(document).ready(function(){
     $('#create-new').click(function(){
         $('#modal-title').html("Criar Notícia");
-        $("input[name='action']").val("create");
-        $('#submit').html("Criar");
+        $("input[name='new-action']").val("create");
+        $('#submit-new').html("Criar");
         
         $('#news-modal').addClass('active');
     });
 
     $('#edit-new').click(function(){
         $('#modal-title').html("Editar Notícia");
-        $("input[name='action']").val("edit");
-        $('#submit').html("Salvar");
+        $("input[name='new-action']").val("edit");
+        $('#submit-new').html("Salvar");
 
         // loadNew();
 
@@ -29,7 +29,17 @@ $(document).ready(function(){
     });
 
 
-
+    $('form').on('submit', function(e) {
+        /* e.preventDefault(); 
+        if (!checkEmptyFields() && !checkErrors()) {
+            console.log("Formulario Valido!");
+            $('form').unbind('submit').submit();
+            }
+            else{
+                console.log("Formulario Invalido!");
+        } */
+       console.log("Formulario Valido!");
+    });
 
 });
 

@@ -19,6 +19,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     }
 
 } else{
-    header("Location: ../signup.php"); //retorna a pagina principal
+    header("Location: ../signup.php");
     die();
 }

@@ -77,21 +77,21 @@
                     <div class="modal-content">
                         <span id="close-modal">&times;</span>
                         <h2 id="modal-title"></h2>
-                        <form action="news.inc.php" method="post">
-                            <input type="hidden" name="action">
+                        <form action="includes/news.inc.php" method="post" id="news-form">
+                            <input type="hidden" name="new-action">
                             <div class="field">
-                                <label for="title">Titulo:</label>
-                                <input type="text" name="title">
+                                <label for="new.title">Titulo:</label>
+                                <input type="text" name="new-title">
                             </div>
                             <div class="field">
-                                <label for="url">Url:</label>
-                                <input type="text" name="url">
+                                <label for="new-url">Url:</label>
+                                <input type="text" name="new-url">
                             </div>
                             <div class="field">
-                                <label for="content">Descrição:</label>
-                                <textarea name="content" rows="4"></textarea>
+                                <label for="new-description">Descrição:</label>
+                                <textarea name="new-description" rows="4"></textarea>
                             </div>
-                            <button type="submit" id="submit"></button>
+                            <button type="submit" id="submit-new"></button>
                         </form>
                     </div>
                 </div>
@@ -109,7 +109,7 @@
                 <div class="edit" id="edit">
                     <div class="form-container" id="user-profile">
                         <h1>Perfil: <span id="user"></span></h1>
-                        <form action="includes/profile.inc.php" method="post">
+                        <form action="includes/profile.inc.php" method="post" id="profile-form">
                             <input type="hidden" name="username">
                             <div class="field-container required">
                                 <div class="field">
