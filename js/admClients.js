@@ -6,7 +6,7 @@ $(document).ready(function(){
 
         $.ajax({
             url: 'includes/loadUsers.inc.php',
-            type: 'GET',
+            type: 'POST',
             data: { username: username },
             success: function(response) {
                 $('#results').html(response);

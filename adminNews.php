@@ -45,7 +45,7 @@
                                 <i class="fas fa-chevron-down"></i> 
                                 <?php
                                 if($_SESSION['activated']){
-                                    echo $_SESSION['clientfirstName'] . " " . $_SESSION['clientLastName']; 
+                                    echo $_SESSION['clientFirstName'] . " " . $_SESSION['clientLastName']; 
                                 } else{
                                     echo $_SESSION['username'];
                                 }
@@ -72,8 +72,8 @@
         </header>
         <main>
             <button id="create-new">Criar Notícia</button>
-            <button id="edit-new"><i class="fa fa-edit"></i></button>
-            <button id="delete-new"><i class="fa fa-trash"></i></button>
+            <!-- <button id="edit-new"><i class="fa fa-edit"></i></button>
+            <button id="delete-new"><i class="fa fa-trash"></i></button> -->
             
             <div class="modal" id="news-modal">
                 <div class="modal-content">
@@ -81,6 +81,7 @@
                     <h2 id="modal-title"></h2>
                     <form action="includes/news.inc.php" method="post">
                         <input type="hidden" name="new-action">
+                        <input type="text" name="new-id" value="">
                         <div class="field">
                             <label for="new.title">Titulo:</label>
                             <input type="text" name="new-title">
@@ -97,13 +98,13 @@
                     </form>
                 </div>
             </div>
-            <div class="new-container"></div>      
+            <div class="news-container"></div>      
         </main>
         <!-- Footer -->
         <footer>
             <div>&copy; 2025 - MyHome</div>
         </footer>
         <script src="js/navMenu.js"></script>
-        <script src="js/admNews.js"></script>
+        <script src="js/admNews2.js"></script>
     </body>
 </html>

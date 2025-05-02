@@ -45,7 +45,7 @@
                                 <i class="fas fa-chevron-down"></i> 
                                 <?php
                                     if($_SESSION['activated']){
-                                        echo $_SESSION['clientfirstName'] . " " . $_SESSION['clientLastName']; 
+                                        echo $_SESSION['clientFirstName'] . " " . $_SESSION['clientLastName']; 
                                     } else{
                                         echo $_SESSION['username'];
                                     }

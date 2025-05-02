@@ -11,12 +11,13 @@ class News{
         $this->conn = $dbh->connect();
     }
     //SQL
-    private function createNew($title, $url, $content, $userId){
-        $sql = "INSERT INTO news (title, link, content, userId) VALUES (:title, :link, :content, :userId)";
+    private function createNew($title, $url, $content, $author, $userId){
+        $sql = "INSERT INTO news (title, link, content, author, userId) VALUES (:title, :link, :content, :author, :userId)";
         $stmt = $this->conn->prepare($sql);
         $stmt->bindParam(':title', $title);
         $stmt->bindParam(':link', $url);
         $stmt->bindParam(':content', $content);
+        $stmt->bindParam(':author', $author);
         $stmt->bindParam(':userId', $userId);
         $stmt->execute();
     }
@@ -40,7 +41,8 @@ class News{
             die();
         }
         $userId = $_SESSION["userId"];
-        $this-> createNew($title, $url, $content, $userId);
+        $author = $_SESSION["clientFirstName"].$_SESSION["clientFastName"];
+        $this-> createNew($title, $url, $content, $author, $userId);
     }
     public function edit(){
 
@@ -50,7 +52,13 @@ class News{
     }
     public function loadNews($newsQt){
         //carrega a quantidade de noticias pedigas default : 5
-        $sql="SELECT * FROM news ORDER BY published DESC LIMIT $newsQt;";
+        $sql="SELECT * FROM news ORDER BY published DESC LIMIT ?;";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindValue(1, (int)$newsQt, PDO::PARAM_INT);
+        $stmt->execute();
+
+        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
     }
 
     

@@ -14,6 +14,8 @@ echo '<pre>';
 print_r($_SESSION);
 echo '</pre>';
 
+$author = $_SESSION["clientFirstName"].$_SESSION["clientLastName"];
+echo $author;
 // unset($_SESSION["accountType"]);
 
 // $_SESSION["activated"] = 0;
@@ -38,3 +40,21 @@ if ($data["userId"] !== $_SESSION["userId"]){
 } else{
     echo "same";
 } */
+
+
+/* require_once "includes/News.php";
+$new = new News();
+$newsData = $new -> loadNews(5);
+$data = [];
+        foreach ($newsData as $newData) {
+            $data[] = [
+                "newId" => $newData["id"],  
+                "title" => $newData["title"],
+                "link" => $newData["link"],
+                "content" => $newData["content"],
+                "userId" => $newData["userId"],
+            ];
+        }
+
+echo json_encode($data); */
+// var_dump($data);

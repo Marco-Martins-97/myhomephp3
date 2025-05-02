@@ -77,7 +77,7 @@ class Login{
         $_SESSION["activated"] = $userData["activated"];
         if ($userData["activated"]){
             $clientData = $this->getClientData($userId);
-            $_SESSION["clientfirstName"] = $clientData["firstName"];
+            $_SESSION["clientFirstName"] = $clientData["firstName"];
             $_SESSION["clientLastName"] = $clientData["lastName"];
         }
         $_SESSION["last_regeneration"] = time();
