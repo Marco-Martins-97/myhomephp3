@@ -98,7 +98,8 @@
                     </form>
                 </div>
             </div>
-            <div class="news-container"></div>      
+            <div class="news-container"></div>   
+            <button id="load-news-btn">Carregar Notícias</button>   
         </main>
         <!-- Footer -->
         <footer>
