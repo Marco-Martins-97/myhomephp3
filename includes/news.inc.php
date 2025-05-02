@@ -18,21 +18,17 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $new = new News();
         if ($action === "create"){
             $new -> create($title, $url, $content);
-        } else if ($action === "edit" && !empty($newId)){
-            /* $new -> edit(); */
-            echo $newId;
-        } else if ($action === "delete"){
-            $new -> delete();
-        }
-
-        /* if($action === "create"){
             header("Location: ../adminNews.php?created=success");
-        } else if ($action === "edit"){
+            die();
+        } else if ($action === "edit" && !empty($newId)){
+            $new -> edit($title, $url, $content, $newId);
             header("Location: ../adminNews.php?saved=success");
-        } else if ($action === "delete"){
+            die();
+        } else if ($action === "delete" && !empty($newId)){
+            $new -> delete($newId);
             header("Location: ../adminNews.php?deleted=success");
+            die();
         }
-        die(); */
 
     } catch (PDOException $e) {
         die ("Query Falhou: ".$e->getMessage());

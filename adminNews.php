@@ -71,7 +71,7 @@
             </nav>
         </header>
         <main>
-            <button id="create-new">Criar Notícia</button>
+            <button class="create-new">Criar Notícia</button>
             <!-- <button id="edit-new"><i class="fa fa-edit"></i></button>
             <button id="delete-new"><i class="fa fa-trash"></i></button> -->
             
@@ -81,9 +81,9 @@
                     <h2 id="modal-title"></h2>
                     <form action="includes/news.inc.php" method="post">
                         <input type="hidden" name="new-action">
-                        <input type="text" name="new-id" value="">
+                        <input type="hidden" name="new-id" value="">
                         <div class="field">
-                            <label for="new.title">Titulo:</label>
+                            <label for="new-title">Titulo:</label>
                             <input type="text" name="new-title">
                         </div>
                         <div class="field">

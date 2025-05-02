@@ -10,12 +10,13 @@ if ($conn) {
 }
 
 
+
 echo '<pre>';
 print_r($_SESSION);
 echo '</pre>';
 
-$author = $_SESSION["clientFirstName"].$_SESSION["clientLastName"];
-echo $author;
+// $author = $_SESSION["clientFirstName"].$_SESSION["clientLastName"];
+// echo $author;
 // unset($_SESSION["accountType"]);
 
 // $_SESSION["activated"] = 0;
@@ -58,3 +59,18 @@ $data = [];
 
 echo json_encode($data); */
 // var_dump($data);
+
+
+
+
+/* function loadNew($conn, $newId){
+    $sql="SELECT title, link, content FROM news WHERE id = :newId;";
+    $stmt = $conn->prepare($sql);
+    $stmt->bindParam(':newId', $newId);
+    $stmt->execute();
+
+    $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    return $result;
+}
+$data = loadNew($conn, 2);
+echo json_encode($data); */

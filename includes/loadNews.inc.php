@@ -6,57 +6,45 @@ if(!isset($_SESSION["username"])){
     header("Location: ../index.php"); 
     die();
 } else{
-    // $newId = isset($_POST["newId"]) ? htmlspecialchars(trim($_POST["newId"])) : "";
+    $newId = isset($_POST["newId"]) ? htmlspecialchars(trim($_POST["newId"])) : "";
     $newsQt = isset($_POST["newsQt"]) ? htmlspecialchars(trim($_POST["newsQt"])) : 5;
     // $newsQt = 5;
 
     $new = new News();
-    try {
-        $newsData = $new -> loadNews($newsQt);
-        
-        $data = [];
-        foreach ($newsData as $newData) {
-            $data[] = [
-                "newId" => $newData["id"],  
+    if (!empty($newId)){
+        try {
+            $newData = $new -> loadNew($newId);
+            
+            $data = array(
                 "title" => $newData["title"],
                 "link" => $newData["link"],
                 "content" => $newData["content"],
-                "author" => $newData["author"],
-            ];
-        }
-        // var_dump($newData);exit();
-        echo json_encode($data);
-    } catch (PDOException $e) {
-        die ("Query Falhou: ".$e->getMessage());
-        // echo json_encode(["error" => "Query Failed: " . $e->getMessage()]);
-    }
-
-    
-    /* $username = !empty($_POST["username"]) ? htmlspecialchars(trim($_POST["username"])) : $_SESSION["username"];
-    //$username =  $_SESSION["username"];
-    
-    $client = new Profile($username);
-    if ($client->userExists() && $client->userExists()["activated"] === 1){   //verifica se o user existe e esta ativo
-        try { 
-            $clientData = $client->getClientData();
-
-            $data = array(
-                // "username" => $username,
-                "firstName" => $clientData["firstName"],
-                "lastName" => $clientData["lastName"],
-                "email" => $clientData["email"],
-                "birthDate" => $clientData["birthDate"],
-                "nif" => $clientData["nif"],
-                "phone" => $clientData["phone"],
-                "clientAddress" => $clientData["clientAddress"],
-                "district" => $clientData["district"],  
             );
 
             echo json_encode($data);
         } catch (PDOException $e) {
             die ("Query Falhou: ".$e->getMessage());
+            // echo json_encode(["error" => "Query Failed: " . $e->getMessage()]);
         }
-    } else{
-        echo json_encode(["error" => "User nao está ativo"]);
-    } */
+    } else {
+        try {
+            $newsData = $new -> loadNews($newsQt);
+            
+            $data = [];
+            foreach ($newsData as $newData) {
+                $data[] = [
+                    "newId" => $newData["id"],  
+                    "title" => $newData["title"],
+                    "link" => $newData["link"],
+                "content" => $newData["content"],
+                "author" => $newData["author"],
+                ];
+            }
+            echo json_encode($data);
+        } catch (PDOException $e) {
+            die ("Query Falhou: ".$e->getMessage());
+            // echo json_encode(["error" => "Query Failed: " . $e->getMessage()]);
+        }
+    }
+
 }

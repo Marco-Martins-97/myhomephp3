@@ -6,14 +6,13 @@ $(document).ready(function(){
             data = JSON.parse(data);
             let newsHTML = '';
             data.forEach(article => {
-                console.log(article);
                 newsHTML += `
                     <div class="news-item">
                         <h2><a href="${article.link}">${article.title}</a></h2>
                         <p>${article.content}</p>
                         <p>${article.author}</p>
-                        <button id="edit-new" data-id="${article.newId}"><i class="fa fa-edit"></i></button>
-                        <button id="delete-new" data-id="${article.newId}"><i class="fa fa-trash"></i></button>
+                        <button class="edit-new" data-id="${article.newId}"><i class="fa fa-edit"></i></button>
+                        <button class="delete-new" data-id="${article.newId}"><i class="fa fa-trash"></i></button>
                     </div>
                 `;
             });
@@ -23,8 +22,20 @@ $(document).ready(function(){
         }
     });
 
+    function loadNew(newId){
+        $.post("includes/loadNews.inc.php", { newId }, function(data, status){
+            if (status ==="success") {
+                data = JSON.parse(data);
+                $("input[name='new-title']").val(data.title);
+                $("input[name='new-url']").val(data.link);
+                $("textarea[name='new-content']").val(data.content);
+            } else {
+                console.log("Error: " + status);
+            }
+        });
+    }
 
-    $('#create-new').click(function(){
+    $('.create-new').click(function(){
         $('#modal-title').html("Criar Notícia");
         $("input[name='new-action']").val("create");
         $('#submit-new').html("Criar");
@@ -32,15 +43,21 @@ $(document).ready(function(){
         $('#news-modal').addClass('active');
     });
 
-    $(document).on('click', '.edit-btn', function() {
+    $(document).on('click', '.edit-new', function() {
+        const newId = $(this).data('id');
         $('#modal-title').html("Editar Notícia");
         $("input[name='new-action']").val("edit");
-        $("input[name='new-id']").val($(this).data('id'));
+        $("input[name='new-id']").val(newId);
         $('#submit-new').html("Salvar");
-
-        // loadNew();
-
+        loadNew(newId);
         $('#news-modal').addClass('active');
+    });
+
+    $(document).on('click', '.delete-new', function() {
+        const newId = $(this).data('id');
+        $("input[name='new-action']").val("delete");
+        $("input[name='new-id']").val(newId);
+        $('form').submit();
     });
 
 

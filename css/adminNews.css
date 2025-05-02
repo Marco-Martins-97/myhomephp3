@@ -101,7 +101,7 @@ main{
 }
 
 /* NEWS MODAL */
-#create-new{
+.create-new{
     /* display: block; */
     /* position: relative; */
     /* top: 20px;
@@ -114,7 +114,7 @@ main{
     color: #ccc;
     cursor: pointer;
 }
-#create-new:hover{
+.create-new:hover{
     background-color: #444;
     color: #fff;
 }
@@ -123,7 +123,7 @@ main{
 
 
 
-#edit-new{
+.edit-new{
     padding: 8px;
     border: 1px solid #ccc;
     border-radius: 5px;
@@ -131,12 +131,12 @@ main{
     background-color: transparent;
     cursor: pointer
 }
-#edit-new:hover{
+.edit-new:hover{
     color: #00f;
     /* background-color: #555; */
 }
 
-#delete-new{
+.delete-new{
     padding: 8px;
     border: 1px solid #ccc;
     border-radius: 5px;
@@ -144,7 +144,7 @@ main{
     background-color: transparent;
     cursor: pointer
 }
-#delete-new:hover{
+.delete-new:hover{
     color: #f00;
     /* background-color: #555; */
 }
