@@ -4,15 +4,29 @@ $(document).ready(function(){
         
         console.log(username);
 
-        $.ajax({
-            url: 'includes/loadUsers.inc.php',
-            type: 'POST',
-            data: { username: username },
-            success: function(response) {
-                $('#results').html(response);
-            },
-            error: function() {
-                $('#results').html('Sem Data.');
+        $.post("includes/loadUsers.inc.php", {username: username}, function (data, status) {
+            if (status === "success") {
+                data = JSON.parse(data);
+
+                if (data.error) {
+                    console.log(data.error);
+                    return;
+                }
+
+                if (data.length === 0) {
+                    $('#results').html("<p>Nenhum Utilizador Encontrado.</p>");
+                    return;
+                }
+
+                /* Ordena Alfabeticamente */
+                data.sort((a, b) => a.username.localeCompare(b.username, undefined, { sensitivity: 'base' }));
+
+                let usersHTML = "<ul id='users-list'>";
+                data.forEach(user => {
+                    usersHTML += ` <li> ${user['username']} </li> `;
+                });
+                usersHTML += "</ul>";
+                $('#results').html(usersHTML);
             }
         });
     });

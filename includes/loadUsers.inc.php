@@ -6,7 +6,7 @@ if(!isset($_SESSION["userRole"]) || $_SESSION["userRole"] !== "admin"){
     die();
 }
 
-    $username = isset($_GET['username']) ? htmlspecialchars(trim($_GET['username'])) : '';
+    $username = isset($_POST['username']) ? htmlspecialchars(trim($_POST['username'])) : '';
     
     require_once 'Dbh.php';
     $dbh = new Dbh();
@@ -24,14 +24,6 @@ if(!isset($_SESSION["userRole"]) || $_SESSION["userRole"] !== "admin"){
 
     $stmt->execute();
     $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-    if ($result && count($result) > 0) {
-        echo "<ul id='users-list'>";
-        foreach ($result as $row) {
-            echo "<li>" . htmlspecialchars($row['username']) . "</li>";
-        }
-        echo "</ul>";
-    } else {
-        echo "Nenhum utilizador encontrado.";
-    }
+    
+    echo json_encode($result);
 

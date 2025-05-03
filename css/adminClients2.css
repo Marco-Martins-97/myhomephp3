@@ -65,7 +65,11 @@ main{
     color: #fff;
      background-color: #666;
 }
-
+.results p{
+    margin-top: 1rem;
+    font-size: 0.9rem;
+    font-weight: bold;
+}
 /* USER PROFILE */
 .edit{
     flex: 1;
@@ -185,7 +189,6 @@ main{
         display: flex;
         flex-direction: column;
         width: 250px;
-        height: 100%;
     }
 
     .results ul{
