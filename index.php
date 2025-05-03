@@ -11,10 +11,11 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <!-- Style -->
         <link rel="stylesheet" href="css/style.css">
-        <link rel="stylesheet" href="css/main.css">
+        <link rel="stylesheet" href="css/main2.css">
         <link rel="shortcut icon" href="img/logo.jpg" type="image/x-icon">
         <!-- Script -->
         <script src="https://kit.fontawesome.com/d132031da6.js" crossorigin="anonymous"></script>
+        <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     </head>
     <body>
         <!-- Header -->
@@ -65,7 +66,9 @@
             </nav>
         </header>
         <main>
-            <section id="news-feed">NEWS</section>
+            <section class="news">
+                <ul id="news-feed"></ul>
+            </section>
             <section id="catalog">CATALOGO</section>
         </main>
         <!-- Footer -->
@@ -73,5 +76,6 @@
             <div>&copy; 2025 - MyHome</div>
         </footer>
         <script src="js/navMenu.js"></script>
+        <script src="js/main.js"></script>
     </body>
 </html>

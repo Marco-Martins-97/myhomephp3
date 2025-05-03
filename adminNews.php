@@ -17,7 +17,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <!-- Style -->
         <link rel="stylesheet" href="css/style.css">
-        <link rel="stylesheet" href="css/adminNews.css">
+        <link rel="stylesheet" href="css/adminNews3.css">
         <link rel="shortcut icon" href="img/logo.jpg" type="image/x-icon">
         <!-- Script -->
         <script src="https://kit.fontawesome.com/d132031da6.js" crossorigin="anonymous"></script>
@@ -72,8 +72,6 @@
         </header>
         <main>
             <button class="create-new">Criar Notícia</button>
-            <!-- <button id="edit-new"><i class="fa fa-edit"></i></button>
-            <button id="delete-new"><i class="fa fa-trash"></i></button> -->
             
             <div class="modal" id="news-modal">
                 <div class="modal-content">
@@ -99,13 +97,15 @@
                 </div>
             </div>
             <div class="news-container"></div>   
-            <button id="load-news-btn">Carregar Notícias</button>   
+            <div class="load-btn-container">
+                <button id="load-news-btn">Carregar Notícias</button>   
+            </div>
         </main>
         <!-- Footer -->
         <footer>
             <div>&copy; 2025 - MyHome</div>
         </footer>
         <script src="js/navMenu.js"></script>
-        <script src="js/admNews2.js"></script>
+        <script src="js/admNews3.js"></script>
     </body>
 </html>
