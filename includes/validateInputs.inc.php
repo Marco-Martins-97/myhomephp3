@@ -188,3 +188,42 @@ if (isset($_POST['district'])) {
     }
     echo  $error;
 }
+
+if (isset($_POST['new-title'])) {
+    $input = trim($_POST['new-title']);
+
+    if (empty($input)) {
+        $error = "O titulo é obrigatório.";
+    } elseif (!empty($input) && !preg_match('/^[\p{L}\p{N}\s.,;:!?()\'"€$%&@#\-–—…]*$/u', $input)) {
+        $error =  "O título contém caracteres inválidos.";
+    } else {
+        $error = "";
+    }
+    echo  $error;
+}
+
+if (isset($_POST['new-url'])) {
+    $input = trim($_POST['new-url']);
+
+    if (empty($input)) {
+        $error = "O url é obrigatório.";
+    } elseif (!empty($input) && !preg_match('/^(https?:\/\/)?[a-z0-9\-\.]+\.[a-z]{2,}(\/[a-z0-9\-._~:\/?#\[\]@!$&\'()*+,;=]*)?$/i', $input)) {
+        $error =  "Url Inválido";
+    } else {
+        $error = "";
+    }
+    echo  $error;
+}
+
+if (isset($_POST['new-content'])) {
+    $input = trim($_POST['new-content']);
+
+    if (empty($input)) {
+        $error = "O conteúdo é obrigatório.";
+    } elseif (!empty($input) && !preg_match('/^[\p{L}\p{N}\s.,;:!?()\'"€$%&@#\-–—…]*$/u', $input)) {
+        $error =  "O conteúdo contém caracteres inválidos.";
+    } else {
+        $error = "";
+    }
+    echo  $error;
+}

@@ -1,5 +1,5 @@
 $(document).ready(function(){
-    let newsQt = 2;
+    let newsQt = 3;
     loadNews(newsQt);
     function loadNews(newsQt){
         $.post("includes/loadNews.inc.php", { newsQt }, function(data, status){
@@ -41,19 +41,77 @@ $(document).ready(function(){
         });
     }
 
+    /* ------------------------------------------------------------------------------------ */
+    function checkEmptyFields() {
+        let emptyFields = false;
+        $.each($("input:not([type='hidden']), textarea"), function() {
+            if ($(this).val() === "") {
+                emptyFields = true;
+                $(this).closest(".field-container").addClass("invalid").find(".error").html("Campo de preenchimento obrigatório!");
+            }
+        });
+        return emptyFields;
+    }
+
+    function checkErrors() {
+        let errors = false;
+        $.each($("input:not([type='hidden']), textarea"), function() {
+            if ($(this).closest(".field-container").hasClass("invalid")) {
+                errors = true;
+            }
+        });
+        return errors;
+    }
+
+    function validateField(input){
+        const name = $(input).attr("name");
+        const value = $(input).val();
+        const field = $(input).closest(".field-container");
+        
+        $.post("includes/validateInputs.inc.php", { [name]: value }, function(data){
+            if (data) {
+                field.addClass("invalid").find(".error").html(data);
+            } else {
+                field.removeClass("invalid").find(".error").html("");
+            }
+        });
+    }
+
+    $("input[name='new-title']").on('input keyup', function () { 
+        validateField(this);
+    });
+    $("input[name='new-url']").on('input keyup', function () { 
+        validateField(this);
+    });
+    $("textarea[name='new-content']").on('input keyup', function () { 
+        validateField(this);
+    });
+    /* ------------------------------------------------------------------------------------ */
     $('.create-new').click(function(){
+        /* remove os erros ao abrir*/
+        $.each($("input, textarea"), function() {
+            if ($(this).closest(".field-container").hasClass("invalid")) {
+                $(this).closest(".field-container").removeClass("invalid");
+            }
+        });
         $('#modal-title').html("Criar Notícia");
         $("input[name='new-action']").val("create");
+        $('#submit-new').html("Criar");
+        /* Apaga todos os valores do modal */
         $("input[name='new-id']").val("");
         $("input[name='new-title']").val("");
         $("input[name='new-url']").val("");
         $("textarea[name='new-content']").val("");
-        $('#submit-new').html("Criar");
         
         $('#news-modal').addClass('active');
     });
 
     $(document).on('click', '.edit-new', function() {
+        $.each($("input, textarea"), function() {
+            if ($(this).closest(".field-container").hasClass("invalid")) {
+                $(this).closest(".field-container").removeClass("invalid");
+            }
+        });
         const newId = $(this).data('id');
         $('#modal-title').html("Editar Notícia");
         $("input[name='new-action']").val("edit");
@@ -74,7 +132,7 @@ $(document).ready(function(){
     });
 
     $(document).on('click', '#load-news-btn', function() {
-        newsQt += 1;
+        newsQt += 3;
         loadNews(newsQt);
     });
 
@@ -91,15 +149,14 @@ $(document).ready(function(){
 
 
     $('form').on('submit', function(e) {
-        /* e.preventDefault(); 
+        e.preventDefault(); 
         if (!checkEmptyFields() && !checkErrors()) {
             console.log("Formulario Valido!");
             $('form').unbind('submit').submit();
             }
             else{
                 console.log("Formulario Invalido!");
-        } */
-       console.log("Formulario Valido!");
+        }
     });
 
 });

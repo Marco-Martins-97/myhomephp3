@@ -58,16 +58,38 @@ class News{
             return false;
         }
     }
+    private function isInputInvalid($input){
+        if (!preg_match('/^[\p{L}\p{N}\s.,;:!?()\'"€$%&@#\-–—…]*$/u', $input)){
+            return true;
+        } else{
+            return false;
+        }
+    }
+    private function isUrlInvalid($input){
+        if (!preg_match('/^(https?:\/\/)?[a-z0-9\-\.]+\.[a-z]{2,}(\/[a-z0-9\-._~:\/?#\[\]@!$&\'()*+,;=]*)?$/i', $input)){
+            return true;
+        } else{
+            return false;
+        }
+    }
 
     public function create($title, $url, $content){
         if ($this->isInputEmpty($title) || $this->isInputEmpty($url) || $this->isInputEmpty($content)){
             $this->errors["createNew"] = "empty";
+        } else if (!$this->isInputEmpty($title) && $this->isInputInvalid($title)){
+            $this->errors["createNew"] = "titleInvalid";
+        } else if (!$this->isInputEmpty($url) && $this->isUrlInvalid($url)){
+            $this->errors["createNew"] = "urlInvalid";
+        } else if (!$this->isInputEmpty($content) && $this->isInputInvalid($content)){
+            $this->errors["createNew"] = "contentInvalid";
         }
+
         //Erros
-        if ($this->errors){
+        if ($this->errors["createNew"]){
             header("Location: ../adminNews.php?create=failed");
             die();
         }
+
         $userId = $_SESSION["userId"];
         $author = $_SESSION["clientFirstName"]." ".$_SESSION["clientLastName"];
         $this->createNew($title, $url, $content, $author, $userId);
@@ -75,10 +97,17 @@ class News{
 
     public function edit($title, $url, $content, $newId){
         if ($this->isInputEmpty($title) || $this->isInputEmpty($url) || $this->isInputEmpty($content)){
-            $this->errors["createNew"] = "empty";
+            $this->errors["updateNew"] = "empty";
+        } else if (!$this->isInputEmpty($title) && $this->isInputInvalid($title)){
+            $this->errors["updateNew"] = "titleInvalid";
+        } else if (!$this->isInputEmpty($url) && $this->isUrlInvalid($url)){
+            $this->errors["updateNew"] = "urlInvalid";
+        } else if (!$this->isInputEmpty($content) && $this->isInputInvalid($content)){
+            $this->errors["updateNew"] = "contentInvalid";
         }
+
         //Erros
-        if ($this->errors){
+        if ($this->errors["updateNew"]){
             header("Location: ../adminNews.php?saved=failed");
             die();
         }
@@ -88,7 +117,7 @@ class News{
 
     public function delete($newId){
         if (!$this->newExists($newId)){
-            header("Location: ../adminNews.php?deleted=failed");
+            header("Location: ../adminNews.php?delete=failed");
             die();
         }
         $this->deleteNew($newId);

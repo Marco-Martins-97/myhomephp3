@@ -79,8 +79,9 @@ class Profile{
     }
     
     private function updateClientInDatabase($firstName, $lastName, $email, $birthDate, $nif, $phone, $clientAddress, $district, $userId){
+        $currentTime = date('Y-m-d H:i:s');
         $sql = "UPDATE clients 
-                SET firstName = :firstName, lastName = :lastName, email = :email, birthDate = :birthDate, nif = :nif, phone = :phone, clientAddress = :clientAddress, district = :district
+                SET firstName = :firstName, lastName = :lastName, email = :email, birthDate = :birthDate, nif = :nif, phone = :phone, clientAddress = :clientAddress, district = :district, lastUpdate = :currentTime
                 WHERE userId = :userId";
         $stmt = $this->conn->prepare($sql);
         $stmt->bindParam(':firstName', $firstName);
@@ -91,6 +92,7 @@ class Profile{
         $stmt->bindParam(':phone', $phone);
         $stmt->bindParam(':clientAddress', $clientAddress);
         $stmt->bindParam(':district', $district);
+        $stmt->bindParam(':currentTime', $currentTime);
         $stmt->bindParam(':userId', $userId);
         $stmt->execute();    
     }

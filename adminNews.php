@@ -80,17 +80,26 @@
                     <form action="includes/news.inc.php" method="post">
                         <input type="hidden" name="new-action">
                         <input type="hidden" name="new-id" value="">
-                        <div class="field">
-                            <label for="new-title">Titulo:</label>
-                            <input type="text" name="new-title">
+                        <div class="field-container">
+                            <div class="field">
+                                <label for="new-title">Titulo:</label>
+                                <input type="text" name="new-title">
+                            </div>
+                            <div class="error"></div>
                         </div>
-                        <div class="field">
-                            <label for="new-url">Url:</label>
-                            <input type="text" name="new-url">
+                        <div class="field-container">
+                            <div class="field">
+                                <label for="new-url">Url:</label>
+                                <input type="text" name="new-url">
+                            </div>
+                            <div class="error"></div>
                         </div>
-                        <div class="field">
-                            <label for="new-content">Conteudo:</label>
-                            <textarea name="new-content" rows="4"></textarea>
+                        <div class="field-container">
+                            <div class="field">
+                                <label for="new-content">Conteudo:</label>
+                                <textarea name="new-content" rows="4"></textarea>
+                            </div>
+                            <div class="error"></div>
                         </div>
                         <button type="submit" id="submit-new"></button>
                     </form>

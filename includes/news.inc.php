@@ -7,10 +7,10 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $content = htmlspecialchars(trim($_POST["new-content"]));
     
     
-    echo "Action: ".$action."<br>";
-    echo "Titulo: ".$title."<br>";
-    echo "URL: ".$url."<br>";
-    echo "Descição: ".$content."<br>";
+    // echo "Action: ".$action."<br>";
+    // echo "Titulo: ".$title."<br>";
+    // echo "URL: ".$url."<br>";
+    // echo "Descição: ".$content."<br>";
     
     
     try { 
@@ -27,6 +27,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         } else if ($action === "delete" && !empty($newId)){
             $new -> delete($newId);
             header("Location: ../adminNews.php?deleted=success");
+            die();
+        } else{
+            header("Location: ../adminNews.php?action=invalid");
             die();
         }
 

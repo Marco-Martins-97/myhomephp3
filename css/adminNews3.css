@@ -48,12 +48,13 @@ main{
 .modal span:hover{
     color: #f00;
 }
-
+.field-container{
+    margin-bottom: 1rem;
+}
 .field{
     display: flex;
     flex-direction: column;
     gap: 1rem;
-    margin-bottom: 1rem;
 }
 
 .field input, .field textarea{
@@ -88,6 +89,19 @@ main{
     display: flex;
 }
 
+.error{
+    display: none;
+    color: red;
+    font-size: 0.8rem;
+    font-weight: bold;
+    text-align: center;
+    padding-top: 3px;
+}
+
+.field-container.invalid .error{
+    display: block;
+}
+
 @media (min-width: 768px){
     .modal-content{
         max-width: 768px;
@@ -103,6 +117,9 @@ main{
     .modal-content button{
         margin: auto;
         width: 25%;
+    }
+    .error{
+        text-align: right;
     }
 }
 
