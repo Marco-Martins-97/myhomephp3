@@ -73,10 +73,10 @@
         <main>
             <button class="create-model">Criar Modelo</button>
 
-            <div class="modal" id="news-modal">
+            <div class="modal" id="catalog-modal">
                 <div class="modal-content">
                     <span id="close-modal">&times;</span>
-                    <h2 id="modal-title">Criar Modelo</h2>
+                    <h2 id="modal-title"></h2>
                     <form action="includes/catalog.inc.php" method="post" enctype="multipart/form-data">
                         <input type="hidden" name="model-action">
                         <input type="hidden" name="model-id" value="">
@@ -92,31 +92,30 @@
                                 <label for="model-img">Modelo Img:</label>
                                 <input type="file" name="model-img">
                             </div>
-                            <div class="preview"></div>
                             <div class="error"></div>
                         </div>
                         <div class="field-container">
                             <div class="field">
-                                <label for="model-area">Area (m2):</label>
-                                <input type="number" name="model-area">
+                                <label for="model-area">Área (m2):</label>
+                                <input type="number" name="model-area" min="0" step="1">
                             </div>
                             <div class="error"></div>
                         </div>
                         <div class="field-container">
                             <div class="field">
                                 <label for="model-bedrooms">Quartos:</label>
-                                <input type="number" name="model-bedrooms">
+                                <input type="number" name="model-bedrooms" min="0" step="1">
                             </div>
                             <div class="error"></div>
                         </div>
                         <div class="field-container">
                             <div class="field">
                                 <label for="model-bathrooms">Wc:</label>
-                                <input type="number" name="model-bathrooms">
+                                <input type="number" name="model-bathrooms" min="0" step="1">
                             </div>
                             <div class="error"></div>
                         </div>
-                        <button type="submit" id="submit-model">Criar Modelo</button>
+                        <button type="submit" id="submit-model"></button>
                     </form>
                 </div>
             </div>
@@ -128,6 +127,6 @@
             <div>&copy; 2025 - MyHome</div>
         </footer>
         <script src="js/navMenu.js"></script>
-        <script src="js/admCatalog.js"></script>
+        <script src="js/admCatalog2.js"></script>
     </body>
 </html>
