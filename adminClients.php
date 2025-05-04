@@ -49,7 +49,7 @@
                                 } else{
                                     echo $_SESSION['username'];
                                 }
-                                ?>
+                            ?>
                             </div>
                             <ul class="dropdown">
                                 <li><a href="profile.php">Perfil</a></li>

@@ -16,6 +16,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     try { 
         require_once "News.php";
         $new = new News();
+        
         if ($action === "create"){
             $new -> create($title, $url, $content);
             header("Location: ../adminNews.php?created=success");

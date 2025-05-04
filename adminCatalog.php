@@ -9,15 +9,15 @@
 <html lang="pt">
     <head>
         <!-- Titulo & Descrição -->
-        <title>MyHome - Administração - Catalogo</title>
-        <meta name="description" content="MyHome - Administração - Catalogo">
+        <title>MyHome - Administração - Catálogo</title>
+        <meta name="description" content="MyHome - Administração - Catálogo">
         <meta name="author" content="Marco Martins">
         <!-- Browser -->
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <!-- Style -->
         <link rel="stylesheet" href="css/style.css">
-        <link rel="stylesheet" href="css/admModels.css">
+        <link rel="stylesheet" href="css/adminCatalog.css">
         <link rel="shortcut icon" href="img/logo.jpg" type="image/x-icon">
         <!-- Script -->
         <script src="https://kit.fontawesome.com/d132031da6.js" crossorigin="anonymous"></script>
@@ -70,7 +70,58 @@
                 </ul>
             </nav>
         </header>
-        <main>     
+        <main>
+            <button class="create-model">Criar Modelo</button>
+
+            <div class="modal" id="news-modal">
+                <div class="modal-content">
+                    <span id="close-modal">&times;</span>
+                    <h2 id="modal-title">Criar Modelo</h2>
+                    <form action="includes/catalog.inc.php" method="post" enctype="multipart/form-data">
+                        <input type="hidden" name="model-action">
+                        <input type="hidden" name="model-id" value="">
+                        <div class="field-container">
+                            <div class="field">
+                                <label for="model-name">Modelo:</label>
+                                <input type="text" name="model-name">
+                            </div>
+                            <div class="error"></div>
+                        </div>
+                        <div class="field-container">
+                            <div class="field">
+                                <label for="model-img">Modelo Img:</label>
+                                <input type="file" name="model-img">
+                            </div>
+                            <div class="preview"></div>
+                            <div class="error"></div>
+                        </div>
+                        <div class="field-container">
+                            <div class="field">
+                                <label for="model-area">Area (m2):</label>
+                                <input type="number" name="model-area">
+                            </div>
+                            <div class="error"></div>
+                        </div>
+                        <div class="field-container">
+                            <div class="field">
+                                <label for="model-bedrooms">Quartos:</label>
+                                <input type="number" name="model-bedrooms">
+                            </div>
+                            <div class="error"></div>
+                        </div>
+                        <div class="field-container">
+                            <div class="field">
+                                <label for="model-bathrooms">Wc:</label>
+                                <input type="number" name="model-bathrooms">
+                            </div>
+                            <div class="error"></div>
+                        </div>
+                        <button type="submit" id="submit-model">Criar Modelo</button>
+                    </form>
+                </div>
+            </div>
+
+
         </main>
         <!-- Footer -->
         <footer>

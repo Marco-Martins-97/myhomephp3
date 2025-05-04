@@ -139,6 +139,7 @@ main{
 
 .article{
     text-align: justify;
+    width: 100%;
 }
 .article a{
     font-weight: bold;

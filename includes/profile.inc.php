@@ -13,15 +13,15 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $clientAddress = htmlspecialchars(trim($_POST["clientAddress"]));
     $district = htmlspecialchars(trim($_POST["district"]));
     
-    echo "Username: ".$username."<br><br>";
-    echo "firstName: ".$firstName."<br>";
-    echo "lastName: ".$lastName."<br>";
-    echo "email: ".$email."<br>";
-    echo "birthDate: ".$birthDate."<br>";
-    echo "nif: ".$nif."<br>";
-    echo "phone: ".$phone."<br>";
-    echo "clientAddress: ".$clientAddress."<br>";
-    echo "district: ".$district."<br>";
+    // echo "Username: ".$username."<br><br>";
+    // echo "firstName: ".$firstName."<br>";
+    // echo "lastName: ".$lastName."<br>";
+    // echo "email: ".$email."<br>";
+    // echo "birthDate: ".$birthDate."<br>";
+    // echo "nif: ".$nif."<br>";
+    // echo "phone: ".$phone."<br>";
+    // echo "clientAddress: ".$clientAddress."<br>";
+    // echo "district: ".$district."<br>";
 
 
     try { 

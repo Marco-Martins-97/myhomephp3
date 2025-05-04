@@ -85,7 +85,7 @@ class News{
         }
 
         //Erros
-        if ($this->errors["createNew"]){
+        if ($this->errors){
             header("Location: ../adminNews.php?create=failed");
             die();
         }

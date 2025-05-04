@@ -37,7 +37,6 @@ if (isset($_POST['loginusername'])){
     echo $error;
 }
 
-
 if (isset($_POST['username'])){
     $input = htmlspecialchars(trim($_POST['username']));
     $required = filter_var($_POST['required'] ?? false, FILTER_VALIDATE_BOOLEAN);
@@ -227,3 +226,26 @@ if (isset($_POST['new-content'])) {
     }
     echo  $error;
 }
+
+if (isset($_FILES['model-img'])) {
+    $file = $_FILES['model-img'];
+    $name = $file['name'];
+    $type = $file['type'];
+    $size = $file['size'];
+
+    $allowedTypes = ['image/jpeg', 'image/png', 'image/gif'];
+    $maxSize = 2097152; // 2MB
+
+    if (empty($name)){
+        $error = "Carregue uma imagem.";
+    } elseif (!in_array($type, $allowedTypes)) {
+        $error =  "Tipo de imagem inválido. Apenas JPEG, PNG ou GIF são permitidos.";
+    } elseif ($size > $maxSize) {
+        $error =  "A imagem excede o tamanho máximo permitido de 2MB.";
+    } else {
+        $error = "";
+    }
+
+    echo $error;
+}
+
