@@ -242,6 +242,7 @@ if (isset($_POST['model-name'])) {
 
 if (isset($_FILES['model-img'])) {
     $file = $_FILES['model-img'];
+    $required = filter_var($_POST['required'] ?? false, FILTER_VALIDATE_BOOLEAN);
     $type = $file['type'];
     $size = $file['size'];
     $imgError = $file['error'];
@@ -249,12 +250,14 @@ if (isset($_FILES['model-img'])) {
     $allowedTypes = ['image/jpeg', 'image/png', 'image/gif'];
     $maxSize = 2097152; // 2MB
 
-    if (!in_array($type, $allowedTypes)) {
-        $error =  "Tipo de imagem inválido. Apenas JPEG, PNG ou GIF são permitidos.";
+    if ($required && $imgError === UPLOAD_ERR_NO_FILE){
+        $error = "A imagem é obrigatória.";
+    } else if (!in_array($type, $allowedTypes)) {
+        $error = "Tipo de imagem inválido. Apenas JPEG, PNG ou GIF são permitidos.";
     } elseif ($size > $maxSize) {
-        $error =  "A imagem excede o tamanho máximo permitido de 2MB.";
+        $error = "A imagem excede o tamanho máximo permitido de 2MB.";
     } elseif ($imgError !== 0) {
-        $error =  "Ocorreu um erro durante o upload da imagem.";
+        $error = "Ocorreu um erro durante o upload da imagem.";
     } else {
         $error = "";
     }

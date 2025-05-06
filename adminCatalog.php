@@ -127,6 +127,6 @@
             <div>&copy; 2025 - MyHome</div>
         </footer>
         <script src="js/navMenu.js"></script>
-        <script src="js/admCatalog2.js"></script>
+        <script src="js/admCatalog3.js"></script>
     </body>
 </html>

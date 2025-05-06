@@ -184,4 +184,23 @@ class Catalog{
         $imgName = $this->uploadImg['name'];
         $this->saveModel($modelName, $imgName, $area, $bedrooms, $bathrooms, $userId);
     }
+
+    public function loadModel($modelId){
+        $sql="SELECT modelName, area, bedrooms, bathrooms FROM houseModels WHERE id = :modelId;";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindParam(':modelId', $modelId);
+        $stmt->execute();
+
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $result;
+    }
+    
+    public function loadModels(){
+        $sql="SELECT * FROM houseModels;";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute();
+
+        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
+    }
 }
