@@ -227,25 +227,87 @@ if (isset($_POST['new-content'])) {
     echo  $error;
 }
 
+if (isset($_POST['model-name'])) {
+    $input = trim($_POST['model-name']);
+
+    if (empty($input)) {
+        $error = "O nome do modelo é obrigatório.";
+    } elseif (!empty($input) && !preg_match('/^[a-zA-ZÀ-ÿ0-9\s,.:()\'"@#+-]+$/', $input)) {
+        $error =  "O nome do modelo contém caracteres inválidos.";
+    } else {
+        $error = "";
+    }
+    echo  $error;
+}
+
 if (isset($_FILES['model-img'])) {
     $file = $_FILES['model-img'];
-    $name = $file['name'];
     $type = $file['type'];
     $size = $file['size'];
+    $imgError = $file['error'];
 
     $allowedTypes = ['image/jpeg', 'image/png', 'image/gif'];
     $maxSize = 2097152; // 2MB
 
-    if (empty($name)){
-        $error = "Carregue uma imagem.";
-    } elseif (!in_array($type, $allowedTypes)) {
+    if (!in_array($type, $allowedTypes)) {
         $error =  "Tipo de imagem inválido. Apenas JPEG, PNG ou GIF são permitidos.";
     } elseif ($size > $maxSize) {
         $error =  "A imagem excede o tamanho máximo permitido de 2MB.";
+    } elseif ($imgError !== 0) {
+        $error =  "Ocorreu um erro durante o upload da imagem.";
     } else {
         $error = "";
     }
 
     echo $error;
 }
+
+if (isset($_POST['model-area'])) {
+    $input = trim($_POST['model-area']);
+
+    if ($input === '') {
+        $error = "A área é obrigatória.";
+    } elseif (!ctype_digit($input)) {
+        $error = "A área deve ser um número inteiro positivo.";
+    } elseif ((int)$input < 0) {
+        $error = "A área deve ser maior que zero.";
+    } else {
+        $error = "";
+    }
+
+    echo $error;
+}
+
+if (isset($_POST['model-bedrooms'])) {
+    $input = trim($_POST['model-bedrooms']);
+
+    if ($input === '') {
+        $error = "O numero de quatos é obrigatório.";
+    } elseif (!ctype_digit($input)) {
+        $error = "O numero de quatos deve ser um número inteiro positivo.";
+    } elseif ((int)$input < 0) {
+        $error = "O numero de quatos deve ser maior ou igual a zero.";
+    } else {
+        $error = "";
+    }
+
+    echo $error;
+}
+
+if (isset($_POST['model-bathrooms'])) {
+    $input = trim($_POST['model-bathrooms']);
+
+    if ($input === '') {
+        $error = "O numero de wc é obrigatório.";
+    } elseif (!ctype_digit($input)) {
+        $error = "O numero de wc deve ser um número inteiro positivo.";
+    } elseif ((int)$input < 0) {
+        $error = "O numero de wc deve ser maior ou igual a zero.";
+    } else {
+        $error = "";
+    }
+
+    echo $error;
+}
+
 

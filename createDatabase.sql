@@ -35,3 +35,15 @@ CREATE TABLE news(
     PRIMARY KEY (id),
     FOREIGN KEY (userId) REFERENCES users (id) ON DELETE SET NULL
 );
+
+CREATE TABLE houseModels(
+	id INT(11) NOT NULL AUTO_INCREMENT,
+    modelName VARCHAR(100) NOT NULL,
+    imgName VARCHAR(100) NOT NULL,
+    area VARCHAR(10) NOT NULL,
+    bedrooms VARCHAR(10) NOT NULL,
+    bathrooms VARCHAR(10) NOT NULL,
+	userId INT(11) DEFAULT NULL,
+    PRIMARY KEY (id),
+    FOREIGN KEY (userId) REFERENCES users (id) ON DELETE SET NULL
+);

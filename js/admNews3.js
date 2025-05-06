@@ -98,10 +98,9 @@ $(document).ready(function(){
         $("input[name='new-action']").val("create");
         $('#submit-new').html("Criar");
         /* Apaga todos os valores do modal */
-        $("input[name='new-id']").val("");
-        $("input[name='new-title']").val("");
-        $("input[name='new-url']").val("");
-        $("textarea[name='new-content']").val("");
+        $.each($("input:not([type='hidden']), textarea"), function() {
+            $(this).val("");
+        });
         
         $('#news-modal').addClass('active');
     });
@@ -153,9 +152,8 @@ $(document).ready(function(){
         if (!checkEmptyFields() && !checkErrors()) {
             console.log("Formulario Valido!");
             $('form').unbind('submit').submit();
-            }
-            else{
-                console.log("Formulario Invalido!");
+        } else{
+            console.log("Formulario Invalido!");
         }
     });
 
