@@ -7,7 +7,7 @@ class Catalog{
     private $errors = [];
     private $uploadDir = "../img/uploads/";
 
-    private $uploadImg;
+    private $uploadedImg;
 
     public function __construct(){
         $dbh = new Dbh();
@@ -27,12 +27,56 @@ class Catalog{
         $stmt->execute();
     }
 
+    private function saveEditedModel($modelName, $area, $bedrooms, $bathrooms, $modelId){
+        if($this->uploadedImg !== ""){
+            $sql = "UPDATE houseModels SET modelName = :modelName, imgName = :imgName, area = :area, bedrooms = :bedrooms, bathrooms = :bathrooms WHERE id = :modelId;";
+        } else {
+            $sql = "UPDATE houseModels SET modelName = :modelName, area = :area, bedrooms = :bedrooms, bathrooms = :bathrooms WHERE id = :modelId;";
+        }
 
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindParam(':modelName', $modelName);
+        if($this->uploadedImg !== ""){
+            $imgName = $this->uploadedImg['name'];
+            $stmt->bindParam(':imgName', $imgName);
+        }
+        $stmt->bindParam(':area', $area);
+        $stmt->bindParam(':bedrooms', $bedrooms);
+        $stmt->bindParam(':bathrooms', $bathrooms);
+        $stmt->bindParam(':modelId', $modelId);
+        $stmt->execute();
+    }
 
+    private function removeModel($modelId){
+        $sql = "DELETE FROM houseModels WHERE id = :modelId";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindParam(':modelId', $modelId);
+        $stmt->execute();
+    }
+    
+    
+    private function getSavedImgName($modelId){
+        $sql="SELECT imgName FROM houseModels WHERE id = :modelId;";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindParam(':modelId', $modelId);
+        $stmt->execute();
+
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $result['imgName'];
+    }
+
+    private function modelExists($modelId){
+        $sql = "SELECT id FROM houseModels WHERE id = :modelId;";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindParam(':modelId', $modelId);
+        $stmt->execute();
+
+        return $stmt->fetch(PDO::FETCH_ASSOC) ? true : false;
+    }
 
 
     private function uploadImg(){
-        $error =  $this->uploadImg['error'];
+        $error =  $this->uploadedImg['error'];
         if ($error !== 0){
             return false;
         }
@@ -41,10 +85,10 @@ class Catalog{
             mkdir($this->uploadDir, 0777, true);
         }
         //renomeia a img, substitui espaços e caracters especiais por "_"
-        $this->uploadImg['name'] = preg_replace("/[^a-zA-Z0-9\.\-_]/", "_", $this->uploadImg['name']);
+        $this->uploadedImg['name'] = preg_replace("/[^a-zA-Z0-9\.\-_]/", "_", $this->uploadedImg['name']);
 
-        $tmpDir = $this->uploadImg['tmp_name'];
-        $destDir = $this->uploadDir.$this->uploadImg['name'];
+        $tmpDir = $this->uploadedImg['tmp_name'];
+        $destDir = $this->uploadDir.$this->uploadedImg['name'];
         
         if(move_uploaded_file($tmpDir, $destDir)){
             return true;
@@ -53,8 +97,8 @@ class Catalog{
         }
     }
 
-    private function deleteImg(){
-        $imgDir = $this->uploadDir.$this->uploadImg['name'];
+    private function deleteImg($imgName){
+        $imgDir = $this->uploadDir.$imgName;
 
         if (file_exists($imgDir)) {
             if (unlink($imgDir)) {
@@ -83,7 +127,7 @@ class Catalog{
     
     private function isFormatInvalid(){
         $allowedTypes = ['image/jpeg', 'image/png', 'image/gif'];
-        $type = $this->uploadImg['type'];
+        $type = $this->uploadedImg['type'];
         if (!in_array($type, $allowedTypes)){
             return true;
         } else{
@@ -93,7 +137,7 @@ class Catalog{
 
     private function isSizeInvalid(){
         $maxSize = 2097152; // 2MB
-        $size = $this->uploadImg['size'];
+        $size = $this->uploadedImg['size'];
         if ($size > $maxSize){
             return true;
         } else{
@@ -127,7 +171,7 @@ class Catalog{
 
 
     public function createModel($modelName, $img, $area, $bedrooms, $bathrooms){
-        $this->uploadImg = $img;
+        $this->uploadedImg = $img;
         //Validaçao de dados
         if ($this->isInputEmpty($modelName)){
             $this->errors["name"] = "empty";
@@ -173,7 +217,7 @@ class Catalog{
                 echo $key." ".$error;
             }
 
-            if ($this->deleteImg()){
+            if ($this->deleteImg($this->uploadedImg['name'])){
                 echo "deleted";
             }
             header("Location: ../adminCatalog.php?create=failed");
@@ -181,8 +225,84 @@ class Catalog{
         }
 
         $userId = $_SESSION["userId"];
-        $imgName = $this->uploadImg['name'];
+        $imgName = $this->uploadedImg['name'];
         $this->saveModel($modelName, $imgName, $area, $bedrooms, $bathrooms, $userId);
+    }
+    public function editModel($modelName, $img, $area, $bedrooms, $bathrooms, $modelId){
+        $this->uploadedImg = $img;
+        
+        //Validaçao de dados
+        if ($this->isInputEmpty($modelName)){
+            $this->errors["name"] = "empty";
+        } else if ($this->isInputInvalid($modelName)){
+            $this->errors["name"] = "invalid";
+        }
+
+        if($this->uploadedImg !== ""){
+            $currentImg = $this->getSavedImgName($modelId);
+            if (!$this->uploadImg()){
+                $this->errors["img"] = "upload";
+            } else if ($this->isFormatInvalid()){
+                $this->errors["img"] = "format";
+            } else if ($this->isSizeInvalid()){
+                $this->errors["img"] = "size";
+            }
+        }
+
+        if ($this->isNumEmpty($area)){
+            $this->errors["area"] = "empty";
+        } else if ($this->isNotNumber($area)){
+            $this->errors["area"] = "invalid";
+        } else if ($this->isNegative($area)){
+            $this->errors["area"] = "negative";
+        }
+        
+        if ($this->isNumEmpty($bedrooms)){
+            $this->errors["bedrooms"] = "empty";
+        } else if ($this->isNotNumber($bedrooms)){
+            $this->errors["bedrooms"] = "invalid";
+        } else if ($this->isNegative($bedrooms)){
+            $this->errors["bedrooms"] = "negative";
+        }
+        
+        if ($this->isNumEmpty($bathrooms)){
+            $this->errors["bathrooms"] = "empty";
+        } else if ($this->isNotNumber($bathrooms)){
+            $this->errors["bathrooms"] = "invalid";
+        } else if ($this->isNegative($bathrooms)){
+            $this->errors["bathrooms"] = "negative";
+        }
+ 
+        //Erros
+        if ($this->errors){
+            foreach ($this->errors as $key => $error) {
+                echo $key." ".$error;
+            }
+            if($this->uploadedImg !== ""){
+                if ($this->deleteImg($this->uploadedImg['name'])){
+                    echo "deleted";
+                }
+            }
+            header("Location: ../adminCatalog.php?create=failed");
+            die();
+        }
+
+        if($this->uploadedImg !== ""){//apaga a imagem antiga
+            if ($this->deleteImg($currentImg)){
+                echo "deleted saved img";
+            }
+        }
+        $this->saveEditedModel($modelName, $area, $bedrooms, $bathrooms, $modelId);
+    }
+
+    public function deleteModel($modelId){
+        if (!$this->modelExists($modelId)){
+            header("Location: ../adminCatalog.php?delete=failed");
+            die();
+        }
+        $currentImg = $this->getSavedImgName($modelId);
+        $this->deleteImg($currentImg);
+        $this->removeModel($modelId);
     }
 
     public function loadModel($modelId){

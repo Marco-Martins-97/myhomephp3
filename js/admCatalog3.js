@@ -14,7 +14,7 @@ $(document).ready(function(){
                         <img src="${imgDir + model.imgName}" alt="${model.imgName}" width="200px">
                         <p>Area: ${model.area}</p>
                         <p>Quartos: ${model.bedrooms}</p>
-                        <p>"Wc: ${model.bathrooms}</p>
+                        <p>Wc: ${model.bathrooms}</p>
                         <p>User: ${model.userId}</p>
                         <button class="edit-model" data-id="${model.modelId}"><i class="fa fa-edit"></i></button>
                         <button class="delete-model" data-id="${model.modelId}"><i class="fa fa-trash"></i></button>
@@ -86,7 +86,11 @@ $(document).ready(function(){
     function checkEmptyFields() {
         let emptyFields = false;
         $.each($("input:not([type='hidden'])"), function() {
-            if ($(this).val() === "" && $(this) !== "input[name='model-img']" || $(this) === "input[name='model-img']" && $(this).closest(".field-container").hasClass("required")) {
+            const isEmpty = $(this).val() === "";
+            const isModelImg = $(this).is("input[name='model-img']");
+            const isRequired = $(this).closest(".field-container").hasClass("required");
+            //Mostra erro quando o campo está vazio mas apenas mostra o erro na img qando é para criar um modelo
+            if (isEmpty && !isModelImg || isEmpty && isModelImg && isRequired) {
                 emptyFields = true;
                 $(this).closest(".field-container").addClass("invalid").find(".error").html("Campo de preenchimento obrigatório!");
             }
@@ -165,6 +169,16 @@ $(document).ready(function(){
         loadModel(modelId);
 
         $('#catalog-modal').addClass('active');
+    });
+
+    $(document).on('click', '.delete-model', function() {
+        const confirm = window.confirm("Eliminar este Modelo?");
+        if (confirm) {
+            const modelId = $(this).data('id');
+            $("input[name='model-action']").val("delete");
+            $("input[name='model-id']").val(modelId);
+            $('form').off('submit').submit();
+        }
     });
 
 

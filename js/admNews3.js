@@ -126,7 +126,7 @@ $(document).ready(function(){
             const newId = $(this).data('id');
             $("input[name='new-action']").val("delete");
             $("input[name='new-id']").val(newId);
-            $('form').submit();
+            $('form').off('submit').submit();
         }
     });
 

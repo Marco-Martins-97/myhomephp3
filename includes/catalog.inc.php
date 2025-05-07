@@ -16,7 +16,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     echo "modelId: ".$modelId."<br>";
     echo "action: ".$action."<br><br>";
     echo "modelName: ".$modelName."<br>";
-    echo "img: " . $img["name"] . "<br>";
+    // echo "img: " . $img["name"] . "<br>";
     echo "area: ".$area."<br>";
     echo "bedrooms: ".$bedrooms."<br>";
     echo "bathrooms: ".$bathrooms."<br>";
@@ -30,12 +30,13 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             $catalog -> createModel($modelName, $img, $area, $bedrooms, $bathrooms);
             header("Location: ../adminCatalog.php?created=success");
             die();
-        } else if ($action === "edit" && !empty($newId)){
-            // $new -> edit($title, $url, $content, $newId);
-            // header("Location: ../adminCatalog.php?saved=success");
-            // die();
-        } else if ($action === "delete" && !empty($newId)){
-            // $new -> delete($newId);
+        } else if ($action === "edit" && !empty($modelId)){
+            if (!isset($img)){ $img = ""; }
+            $catalog -> editModel($modelName, $img, $area, $bedrooms, $bathrooms, $modelId);
+            header("Location: ../adminCatalog.php?saved=success");
+            die();
+        } else if ($action === "delete" && !empty($modelId)){
+            $catalog -> deleteModel($modelId);
             // header("Location: ../adminCatalog.php?deleted=success");
             // die();
         } else{
