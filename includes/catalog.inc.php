@@ -13,13 +13,13 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $bedrooms = htmlspecialchars(trim($_POST["model-bedrooms"]));
     $bathrooms = htmlspecialchars(trim($_POST["model-bathrooms"]));
     
-    echo "modelId: ".$modelId."<br>";
-    echo "action: ".$action."<br><br>";
-    echo "modelName: ".$modelName."<br>";
-    // echo "img: " . $img["name"] . "<br>";
-    echo "area: ".$area."<br>";
-    echo "bedrooms: ".$bedrooms."<br>";
-    echo "bathrooms: ".$bathrooms."<br>";
+    // echo "modelId: ".$modelId."<br>";
+    // echo "action: ".$action."<br><br>";
+    // echo "modelName: ".$modelName."<br>";
+    // // echo "img: " . $img["name"] . "<br>";
+    // echo "area: ".$area."<br>";
+    // echo "bedrooms: ".$bedrooms."<br>";
+    // echo "bathrooms: ".$bathrooms."<br>";
  
 
     try { 
@@ -37,8 +37,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             die();
         } else if ($action === "delete" && !empty($modelId)){
             $catalog -> deleteModel($modelId);
-            // header("Location: ../adminCatalog.php?deleted=success");
-            // die();
+            header("Location: ../adminCatalog.php?deleted=success");
+            die();
         } else{
             header("Location: ../adminCatalog.php?action=invalid");
             die();

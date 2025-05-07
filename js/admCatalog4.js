@@ -9,20 +9,22 @@ $(document).ready(function(){
                 let modelHTML = '';
                 data.forEach(model => {
                     modelHTML += `
-                        <p>Model id: ${model.modelId}</p>
-                        <p>Model Name: ${model.modelName}</p>
-                        <img src="${imgDir + model.imgName}" alt="${model.imgName}" width="200px">
-                        <p>Area: ${model.area}</p>
-                        <p>Quartos: ${model.bedrooms}</p>
-                        <p>Wc: ${model.bathrooms}</p>
-                        <p>User: ${model.userId}</p>
-                        <button class="edit-model" data-id="${model.modelId}"><i class="fa fa-edit"></i></button>
-                        <button class="delete-model" data-id="${model.modelId}"><i class="fa fa-trash"></i></button>
-                        <br>
-                        <br>
+                        <li class="card">
+                            <img src="${imgDir + model.imgName}" alt="${model.modelName}">
+                            <div class="description">
+                                <h3>${model.modelName}</h3>
+                                <p>Área: ${model.area} m²</p>
+                                <p>Quartos: ${model.bedrooms}</p>
+                                <p>Wc: ${model.bathrooms}</p>
+                            </div>
+                            <div class="btn-container">
+                                <button class="edit-model" data-id="${model.modelId}"><i class="fa fa-edit"></i></button>
+                                <button class="delete-model" data-id="${model.modelId}"><i class="fa fa-trash"></i></button>
+                            </div>
+                        </li>
                     `;
                 });
-                $('.models-container').html(modelHTML);
+                $('.gallery').html(modelHTML);
             } else {
                 console.log("Error: " + status);
             }
@@ -180,10 +182,6 @@ $(document).ready(function(){
             $('form').off('submit').submit();
         }
     });
-
-
-
-
 
 
     $('#close-modal').on('click', function() {
