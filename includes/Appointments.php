@@ -43,11 +43,20 @@ class Appointments{
     }
 
     public function loadAppointments($username){
-        $sql="SELECT id, appointmentDate, appointmentTime, reason, appointmentStatus FROM appointments WHERE username = :username;";
+        $sql="SELECT id, appointmentDate, DATE_FORMAT(appointmentTime, '%H:%i') AS appointmentTime, reason, appointmentStatus FROM appointments WHERE username = :username;";
         $stmt = $this->conn->prepare($sql);
         $stmt->bindParam(':username', $username);
         $stmt->execute();
         $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
+    }
+    public function loadAppointment($username, $appointmentId){
+        $sql="SELECT appointmentDate, DATE_FORMAT(appointmentTime, '%H:%i') AS appointmentTime, reason FROM appointments WHERE username = :username AND id = :appointmentId;";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindParam(':username', $username);
+        $stmt->bindParam(':appointmentId', $appointmentId);
+        $stmt->execute();
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
         return $result;
     }
 }

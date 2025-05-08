@@ -97,25 +97,9 @@
                                         <label for="appointment-date">Data/Hora:</label>
                                         <div class="dateTime">
                                             <input type="date" name="appointment-date">
-                                            <select name="appointment-time">
-                                                <option value="">--Selecione uma Hora--</option>
-                                                <option value="08:00">08:00</option>
-                                                <option value="08:30">08:30</option>
-                                                <option value="09:00">09:00</option>
-                                                <option value="09:30">09:30</option>
-                                                <option value="10:00">10:00</option>
-                                                <option value="10:30">10:30</option>
-                                                <option value="11:00">11:00</option>
-                                                <option value="11:30">11:30</option>
-                                                <option value="13:00">13:00</option>
-                                                <option value="13:30">13:30</option>
-                                                <option value="14:00">14:00</option>
-                                                <option value="14:30">14:30</option>
-                                                <option value="15:00">15:00</option>
-                                                <option value="15:30">15:30</option>
-                                                <option value="16:00">16:00</option>
-                                                <option value="16:30">16:30</option>
-                                                </select>
+                                            <select name="appointment-time" id="times">
+                                                <option value="" id="default">--Selecione uma Hora--</option>
+                                            </select>
                                         </div>
                                     </div>
                                     <div class="error"></div>
@@ -143,6 +127,5 @@
         </footer>
         <script src="js/navMenu.js"></script>
         <script src="js/appointments.js"></script>
-        <!-- <script src="js/appointmentsValidate.js"></script> -->
     </body>
 </html>
