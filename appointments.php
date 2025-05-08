@@ -21,6 +21,15 @@
         <link rel="shortcut icon" href="img/logo.jpg" type="image/x-icon">
         <!-- Script -->
         <script src="https://kit.fontawesome.com/d132031da6.js" crossorigin="anonymous"></script>
+        <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+        <style>
+            .status{
+                text-transform: capitalize;
+            }
+            .status.pending{
+                color: orange;
+            }
+        </style>
     </head>
     <body>
         <!-- Header -->
@@ -55,6 +64,7 @@
                                 <li><a href="profile.php">Perfil</a></li>
                                 <li><a href="appointments.php">Marcaçoes</a></li>
                                 <?php if($_SESSION["userRole"] === 'admin'){ ?>
+                                    <li><a href="adminAppointments.php">Marcaçoes Clientes</a></li>
                                     <li><a href="adminNews.php">News</a></li>
                                     <li><a href="adminCatalog.php">Catálogo</a></li>
                                     <li><a href="adminClients.php">Clientes</a></li>
@@ -71,13 +81,68 @@
             </nav>
         </header>
         <main>
-                <h1> <?php if(!$_SESSION['activated']){ echo "<a href='profile.php'> Ativar Conta! </a>"; } ?> </h1>
+            <div class="appointments-container">
+                <?php if(!$_SESSION['activated']){ echo "<a href='profile.php'> Ativar Conta! </a>"; } else{ ?>
+                    <button class="create-appointment">Criar Marcação</button>
+
+                    <div class="modal" id="appointment-modal">
+                        <div class="modal-content">
+                            <span id="close-modal">&times;</span>
+                            <h2 id="modal-title"></h2>
+                            <form action="includes/appointments.inc.php" method="post">
+                                <input type="hidden" name="appointment-action">
+                                <input type="hidden" name="appointment-id" value="">
+                                <div class="field-container">
+                                    <div class="field">
+                                        <label for="appointment-date">Data/Hora:</label>
+                                        <div class="dateTime">
+                                            <input type="date" name="appointment-date">
+                                            <select name="appointment-time">
+                                                <option value="">--Selecione uma Hora--</option>
+                                                <option value="08:00">08:00</option>
+                                                <option value="08:30">08:30</option>
+                                                <option value="09:00">09:00</option>
+                                                <option value="09:30">09:30</option>
+                                                <option value="10:00">10:00</option>
+                                                <option value="10:30">10:30</option>
+                                                <option value="11:00">11:00</option>
+                                                <option value="11:30">11:30</option>
+                                                <option value="13:00">13:00</option>
+                                                <option value="13:30">13:30</option>
+                                                <option value="14:00">14:00</option>
+                                                <option value="14:30">14:30</option>
+                                                <option value="15:00">15:00</option>
+                                                <option value="15:30">15:30</option>
+                                                <option value="16:00">16:00</option>
+                                                <option value="16:30">16:30</option>
+                                                </select>
+                                        </div>
+                                    </div>
+                                    <div class="error"></div>
+                                </div>
+                                <div class="field-container">
+                                    <div class="field">
+                                        <label for="appointment-reason">Motivo de Contacto:</label>
+                                        <textarea name="appointment-reason" rows="4"></textarea>
+                                    </div>
+                                    <div class="error"></div>
+                                </div>
+                                <button type="submit" id="submit-appointment">Marcar</button>
+                            </form>
+                        </div>
+                    </div>
+
+                    <ul class="schedule-appointments"></ul>
+                <?php } ?>
+            </div>
+
         </main>
         <!-- Footer -->
         <footer>
             <div>&copy; 2025 - MyHome</div>
         </footer>
         <script src="js/navMenu.js"></script>
-        <script src="js/profileValidate.js"></script>
+        <script src="js/appointments.js"></script>
+        <!-- <script src="js/appointmentsValidate.js"></script> -->
     </body>
 </html>

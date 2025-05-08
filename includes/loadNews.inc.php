@@ -2,10 +2,10 @@
 // session_start();
 require_once "News.php";
 
-if(!isset($_SESSION["username"])){ 
+/* if(!isset($_SESSION["username"])){ 
     header("Location: ../index.php"); 
     die();
-} else{
+} else{ */
     $newId = isset($_POST["newId"]) ? htmlspecialchars(trim($_POST["newId"])) : "";
     $newsQt = isset($_POST["newsQt"]) ? htmlspecialchars(trim($_POST["newsQt"])) : 5;
     // $newsQt = 5;
@@ -47,4 +47,4 @@ if(!isset($_SESSION["username"])){
         }
     }
 
-}
+/* } */

@@ -1,11 +1,11 @@
 <?php
 // session_start();
 require_once "Catalog.php";
-
+/* 
 if(!isset($_SESSION["username"])){ 
     header("Location: ../index.php"); 
     die();
-}
+} */
 
 $modelId = isset($_POST["modelId"]) ? htmlspecialchars(trim($_POST["modelId"])) : "";
 

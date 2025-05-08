@@ -47,3 +47,15 @@ CREATE TABLE houseModels(
     PRIMARY KEY (id),
     FOREIGN KEY (userId) REFERENCES users (id) ON DELETE SET NULL
 );
+
+CREATE TABLE appointments (
+    id INT(11) NOT NULL AUTO_INCREMENT,
+    username VARCHAR(30) NOT NULL,
+    clientName VARCHAR(60) NOT NULL,
+    appointmentDate DATE NOT NULL,
+    appointmentTime TIME NOT NULL,
+    reason TEXT NOT NULL,
+    lastUpdate DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    appointmentStatus VARCHAR(20) NOT NULL,
+    PRIMARY KEY (id)
+);

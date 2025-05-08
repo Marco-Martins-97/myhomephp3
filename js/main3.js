@@ -10,7 +10,7 @@ $(document).ready(function(){
                 data.forEach(article => {
                     newsHTML += `
                         <li>
-                            <a href="${article.link} target="_blank"">${article.title}</a>
+                            <a href="${article.link}" target="_blank">${article.title}</a>
                             <p>${article.content}</p>
                         </li>
                     `;

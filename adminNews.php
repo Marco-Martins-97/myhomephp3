@@ -55,6 +55,7 @@
                                 <li><a href="profile.php">Perfil</a></li>
                                 <li><a href="appointments.php">Marcaçoes</a></li>
                                 <?php if($_SESSION["userRole"] === 'admin'){ ?>
+                                    <li><a href="adminAppointments.php">Marcaçoes Clientes</a></li>
                                     <li><a href="adminNews.php">Notícias</a></li>
                                     <li><a href="adminCatalog.php">Catálogo</a></li>
                                     <li><a href="adminClients.php">Clientes</a></li>
