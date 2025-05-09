@@ -34,12 +34,12 @@ class News{
 
     private function editNew($title, $url, $content, $newId){
         $currentTime = date('Y-m-d H:i:s');
-        $sql = "UPDATE news SET title = :title, link = :link, content = :content, lastUpdate = :currentTime WHERE id = :newId;";
+        $sql = "UPDATE news SET title = :title, link = :link, content = :content, lastUpdate = :lastUpdate WHERE id = :newId;";
         $stmt = $this->conn->prepare($sql);
         $stmt->bindParam(':title', $title);
         $stmt->bindParam(':link', $url);
         $stmt->bindParam(':content', $content);
-        $stmt->bindParam(':currentTime', $currentTime);
+        $stmt->bindParam(':lastUpdate', $currentTime);
         $stmt->bindParam(':newId', $newId);
         $stmt->execute();
     }

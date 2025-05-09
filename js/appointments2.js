@@ -48,6 +48,36 @@ $(document).ready(function(){
         });
     }
 
+    function allowedToModify(appointmentId, canModify){
+        $.post("includes/loadAppointments.inc.php", { appointmentId }, function(data, status){
+            if (status ==="success") {
+                data = JSON.parse(data);
+                if (data.status === "cancelled"){
+                    warning("A marcação já se encontra cancelada!");
+                    return canModify(false);
+                } 
+                
+                const appointmentDateTime = new Date(`${data.date}T${data.time}`);
+                const currentDateTime = new Date();
+                const hoursDiff = (appointmentDateTime - currentDateTime) / (1000 * 60 * 60); //milisegundos para horas
+                console.log(hoursDiff);
+                if (hoursDiff < 72){
+                    warning("Falta menos de 72h, não é possivel alterar ou cancelar a marcação.");
+                    return canModify(false);
+                } 
+                
+                return canModify(true);
+            } else {
+                console.log("Error: " + status);
+                warning("Error: " + status);
+                return canModify(false);
+            }
+        });
+    }
+    function warning($text){
+        $('#warning-title').html($text);
+        $('#warning-modal').addClass('active');
+    }
     $('.create-appointment').click(function(){
         /* remove os erros ao abrir*/
         // $.each($("input, textarea"), function() {
@@ -59,36 +89,45 @@ $(document).ready(function(){
         $("input[name='appointment-action']").val("create");
         $('#submit-appointment').html("Marcar");
         /* Apaga todos os valores do modal */
-        // $.each($("input:not([type='hidden']), textarea"), function() {
-        //     $(this).val("");
-        // });
+        $.each($("input:not([type='hidden']), textarea"), function() {
+            $(this).val("");
+        });
+        $('#default').val("").text("--Selecione uma Hora--");
         
         $('#appointment-modal').addClass('active');
     });
 
     $(document).on('click', '.reschedule-appointment', function() {
-        $.each($("input, textarea"), function() {
+       /*  $.each($("input, textarea"), function() {
             if ($(this).closest(".field-container").hasClass("invalid")) {
                 $(this).closest(".field-container").removeClass("invalid");
             }
-        });
+        }); */
         const appointmentId = $(this).data('id');
-        $('#modal-title').html("Alterar Marcação");
-        $("input[name='appointment-action']").val("reschedule");
-        $("input[name='appointment-id']").val(appointmentId);
-        $('#submit-appointment').html("Remarcar");
-        loadAppointment(appointmentId);
-        $('#appointment-modal').addClass('active');
+        allowedToModify(appointmentId, function(canModify){
+            if (canModify){
+                $('#modal-title').html("Alterar Marcação");
+                $("input[name='appointment-action']").val("reschedule");
+                $("input[name='appointment-id']").val(appointmentId);
+                $('#submit-appointment').html("Remarcar");
+                loadAppointment(appointmentId);
+                $('#appointment-modal').addClass('active');
+            }
+        });
     });
 
     $(document).on('click', '.cancel-appointment', function() {
-        // const confirm = window.confirm("Eliminar esta Notícia?");
-        // if (confirm) {
-        //     const newId = $(this).data('id');
-        //     $("input[name='new-action']").val("delete");
-        //     $("input[name='new-id']").val(newId);
-        //     $('form').off('submit').submit();
-        // }
+        const appointmentId = $(this).data('id');
+        allowedToModify(appointmentId, function(canModify){
+            if (canModify){
+                const confirm = window.confirm("Cancelar esta Marcação?");
+                if (confirm) {
+                    $("input[name='appointment-action']").val("cancel");
+                    $("input[name='appointment-id']").val(appointmentId);
+                    $('form').off('submit').submit();
+                }
+            }
+        });
     });
 
 
@@ -101,6 +140,16 @@ $(document).ready(function(){
 
 
 
+
+    $('#close-warning').on('click', function() {
+        $('#warning-modal').removeClass('active');
+    });
+
+    $('#warning-modal').on('click', function(e) {
+        if ($(e.target).is('#warning-modal')) {
+            $('#warning-modal').removeClass('active');
+        }
+    });
 
     $('#close-modal').on('click', function() {
         $('#appointment-modal').removeClass('active');

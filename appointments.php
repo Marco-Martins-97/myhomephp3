@@ -17,7 +17,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <!-- Style -->
         <link rel="stylesheet" href="css/style.css">
-        <link rel="stylesheet" href="css/appointments.css">
+        <link rel="stylesheet" href="css/appointments3.css">
         <link rel="shortcut icon" href="img/logo.jpg" type="image/x-icon">
         <!-- Script -->
         <script src="https://kit.fontawesome.com/d132031da6.js" crossorigin="anonymous"></script>
@@ -26,8 +26,14 @@
             .status{
                 text-transform: capitalize;
             }
-            .status.pending{
+            .status.pending, .status.rescheduled{
                 color: orange;
+            }
+            .status.cancelled{
+                color: red;
+            }
+            .status.approved{
+                color: green;
             }
         </style>
     </head>
@@ -84,7 +90,12 @@
             <div class="appointments-container">
                 <?php if(!$_SESSION['activated']){ echo "<a href='profile.php'> Ativar Conta! </a>"; } else{ ?>
                     <button class="create-appointment">Criar Marcação</button>
-
+                    <div class="modal" id="warning-modal">
+                        <div class="modal-content">
+                            <span id="close-warning">&times;</span>
+                            <h2 id="warning-title"></h2>
+                        </div>
+                    </div>
                     <div class="modal" id="appointment-modal">
                         <div class="modal-content">
                             <span id="close-modal">&times;</span>
@@ -126,6 +137,6 @@
             <div>&copy; 2025 - MyHome</div>
         </footer>
         <script src="js/navMenu.js"></script>
-        <script src="js/appointments.js"></script>
+        <script src="js/appointments2.js"></script>
     </body>
 </html>

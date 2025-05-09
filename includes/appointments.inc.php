@@ -8,31 +8,33 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     
     
     echo "Action: ".$action."<br>";
+    echo "ID: ".$appointmentId."<br>";
     /* echo "Date: ".$appointmentDate."<br>";
     echo "Time: ".$appointmentTime."<br>";
     echo "Reason: ".$reason."<br>"; */
     
     
     try { 
+
         require_once "Appointments.php";
         $appointment = new Appointments();
         
-        // if ($action === "create"){
-        $appointment -> create($appointmentDate, $appointmentTime, $reason);
-        //     header("Location: ../adminNews.php?created=success");
-        //     die();
-        // } else if ($action === "edit" && !empty($newId)){
-        //     $new -> edit($title, $url, $content, $newId);
-        //     header("Location: ../adminNews.php?saved=success");
-        //     die();
-        // } else if ($action === "delete" && !empty($newId)){
-        //     $new -> delete($newId);
-        //     header("Location: ../adminNews.php?deleted=success");
-        //     die();
-        // } else{
-        //     header("Location: ../adminNews.php?action=invalid");
-        //     die();
-        // }
+        if ($action === "create"){
+            $appointment -> create($appointmentDate, $appointmentTime, $reason);
+            header("Location: ../appointments.php?created=success");
+            die();
+        } else if ($action === "reschedule" && !empty($appointmentId)){
+            $appointment -> reschedule($appointmentId, $appointmentDate, $appointmentTime, $reason);
+            header("Location: ../appointments.php?rescheduled=success");
+            die();
+        } else if ($action === "cancel" && !empty($appointmentId)){
+            $appointment -> cancel($appointmentId);
+            header("Location: ../appointments.php?cancelled=success");
+            die();
+        } else{
+            header("Location: ../appointments.php?action=invalid");
+            die();
+        }
 
     } catch (PDOException $e) {
         die ("Query Falhou: ".$e->getMessage());

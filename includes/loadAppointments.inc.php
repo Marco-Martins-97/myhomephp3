@@ -19,6 +19,7 @@ if (!empty($appointmentId)){
             "date" => $appointmentData["appointmentDate"],  
             "time" => $appointmentData["appointmentTime"],
             "reason" => $appointmentData["reason"],
+            "status" => $appointmentData["appointmentStatus"],
         );
 
         echo json_encode($data);

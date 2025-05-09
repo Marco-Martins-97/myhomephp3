@@ -97,6 +97,10 @@
 .field-container.invalid .error{
     display: block;
 }
+#warning-title{
+    margin-bottom: 0;
+    color: #f00;
+}
 
 @media (min-width: 768px){
     .modal-content{
