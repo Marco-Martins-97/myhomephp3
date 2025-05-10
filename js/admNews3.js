@@ -1,5 +1,5 @@
 $(document).ready(function(){
-    let newsQt = 3;
+    const newsQt = 3;
     loadNews(newsQt);
     function loadNews(newsQt){
         $.post("includes/loadNews.inc.php", { newsQt }, function(data, status){

@@ -8,23 +8,27 @@ $(document).ready(function(){
             text: time
         }));
     });
-    
     function loadAppointments(){
         $.post("includes/loadAppointments.inc.php", function(data, status){
             if (status ==="success") {
                 data = JSON.parse(data);
-                console.log(data);
                 let appointmentHTML = '';
                 data.forEach(appointment => {
+                    /* if(appointment.status === "cancelled"){
+                        return;
+                    } */
                     appointmentHTML += `
                         <li>
-                            <p>ID: ${appointment.appointmentId}</p>
-                            <p>Data/Hora: ${appointment.date}, ${appointment.time}</p>
-                            <p>Reason: ${appointment.reason}</p>
-                            <p>Status: <span class="status ${appointment.status}">${appointment.status}</span></p>
-                            <div class="btn-container">
-                                <button class="reschedule-appointment" data-id="${appointment.appointmentId}">Remarcar</button>
-                                <button class="cancel-appointment" data-id="${appointment.appointmentId}">Cancelar</button>
+                            <div class="appointment-container">
+                                <p>${appointment.reason}</p>
+                                <div class="appointment-title">
+                                    <p>${appointment.date} ${appointment.time}</p>
+                                    <p><span class="status ${appointment.status}">${appointment.status}</span></p>
+                                    <div class="btn-container">
+                                        <button class="reschedule-appointment" data-id="${appointment.appointmentId}">Remarcar</button>
+                                        <button class="cancel-appointment" data-id="${appointment.appointmentId}">Cancelar</button>
+                                    </div>
+                                </div>
                             </div>
                         </li>
                     `;
@@ -40,7 +44,11 @@ $(document).ready(function(){
             if (status ==="success") {
                 data = JSON.parse(data);
                 $('input[name="appointment-date"]').val(data.date);
-                $('#default').val(data.time).text(data.time);
+                $("#times option").each(function() {
+                    if ($(this).val() === data.time) {
+                        $(this).prop("selected", true);
+                    }
+                });
                 $('textarea[name="appointment-reason"]').val(data.reason);
             } else {
                 console.log("Error: " + status);
@@ -60,7 +68,6 @@ $(document).ready(function(){
                 const appointmentDateTime = new Date(`${data.date}T${data.time}`);
                 const currentDateTime = new Date();
                 const hoursDiff = (appointmentDateTime - currentDateTime) / (1000 * 60 * 60); //milisegundos para horas
-                console.log(hoursDiff);
                 if (hoursDiff < 72){
                     warning("Falta menos de 72h, não é possivel alterar ou cancelar a marcação.");
                     return canModify(false);
@@ -78,13 +85,66 @@ $(document).ready(function(){
         $('#warning-title').html($text);
         $('#warning-modal').addClass('active');
     }
+
+    function checkEmptyFields() {
+        let emptyFields = false;
+        $.each($("input:not([type='hidden']), textarea, select"), function() {
+            const tagName = this.tagName.toLowerCase();
+            let value = $(this).val();
+
+            if(tagName === "select"){
+                const selectedOption = $(this).find("option:selected");
+                value = selectedOption.val();
+            }
+
+            if (!value || value === "") {
+                emptyFields = true;
+                $(this).closest(".field-container").addClass("invalid").find(".error").html("Campo de preenchimento obrigatório!");
+            }
+        });
+        return emptyFields;
+    }
+    function checkErrors() {
+        let errors = false;
+        $.each($("input:not([type='hidden']), textarea"), function() {
+            if ($(this).closest(".field-container").hasClass("invalid")) {
+                errors = true;
+            }
+        });
+        return errors;
+    }
+
+    function validateField(input){
+        const name = $(input).attr("name");
+        const value = $(input).val();
+        const field = $(input).closest(".field-container");
+        
+        $.post("includes/validateInputs.inc.php", { [name]: value }, function(data){
+            if (data) {
+                field.addClass("invalid").find(".error").html(data);
+            } else {
+                field.removeClass("invalid").find(".error").html("");
+            }
+        });
+    }
+
+    $("input[name='appointment-date']").on('input keyup', function () { 
+        validateField(this);
+    });
+    $("select[name='appointment-time']").on('change', function () { 
+        validateField(this);
+    });
+    $("textarea[name='appointment-reason']").on('input keyup', function () { 
+        validateField(this);
+    });
+
     $('.create-appointment').click(function(){
         /* remove os erros ao abrir*/
-        // $.each($("input, textarea"), function() {
-        //     if ($(this).closest(".field-container").hasClass("invalid")) {
-        //         $(this).closest(".field-container").removeClass("invalid");
-        //     }
-        // });
+        $.each($("input, textarea"), function() {
+            if ($(this).closest(".field-container").hasClass("invalid")) {
+                $(this).closest(".field-container").removeClass("invalid");
+            }
+        });
         $('#modal-title').html("Criar Marcação");
         $("input[name='appointment-action']").val("create");
         $('#submit-appointment').html("Marcar");
@@ -92,17 +152,17 @@ $(document).ready(function(){
         $.each($("input:not([type='hidden']), textarea"), function() {
             $(this).val("");
         });
-        $('#default').val("").text("--Selecione uma Hora--");
+        $("#times").prop("selectedIndex", 0);
         
         $('#appointment-modal').addClass('active');
     });
 
     $(document).on('click', '.reschedule-appointment', function() {
-       /*  $.each($("input, textarea"), function() {
+        $.each($("input, textarea"), function() {
             if ($(this).closest(".field-container").hasClass("invalid")) {
                 $(this).closest(".field-container").removeClass("invalid");
             }
-        }); */
+        });
         const appointmentId = $(this).data('id');
         allowedToModify(appointmentId, function(canModify){
             if (canModify){
@@ -158,6 +218,16 @@ $(document).ready(function(){
     $('#appointment-modal').on('click', function(e) {
         if ($(e.target).is('#appointment-modal')) {
             $('#appointment-modal').removeClass('active');
+        }
+    });
+
+    $('form').on('submit', function(e) {
+        e.preventDefault(); 
+        if (!checkEmptyFields() && !checkErrors()) {
+            console.log("Formulario Valido!");
+            $('form').unbind('submit').submit();
+        } else{
+            console.log("Formulario Invalido!");
         }
     });
 });

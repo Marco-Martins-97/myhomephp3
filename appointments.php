@@ -17,7 +17,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <!-- Style -->
         <link rel="stylesheet" href="css/style.css">
-        <link rel="stylesheet" href="css/appointments3.css">
+        <link rel="stylesheet" href="css/appointments4.css">
         <link rel="shortcut icon" href="img/logo.jpg" type="image/x-icon">
         <!-- Script -->
         <script src="https://kit.fontawesome.com/d132031da6.js" crossorigin="anonymous"></script>
@@ -88,7 +88,9 @@
         </header>
         <main>
             <div class="appointments-container">
-                <?php if(!$_SESSION['activated']){ echo "<a href='profile.php'> Ativar Conta! </a>"; } else{ ?>
+                <?php if(!$_SESSION['activated']){ 
+                    echo "<a href='profile.php'> Ativar Conta! </a>"; 
+                } else{ ?>
                     <button class="create-appointment">Criar Marcação</button>
                     <div class="modal" id="warning-modal">
                         <div class="modal-content">
@@ -109,7 +111,7 @@
                                         <div class="dateTime">
                                             <input type="date" name="appointment-date">
                                             <select name="appointment-time" id="times">
-                                                <option value="" id="default">--Selecione uma Hora--</option>
+                                                <option value="" id="default" disabled selected>--Selecione uma Hora--</option>
                                             </select>
                                         </div>
                                     </div>
@@ -137,6 +139,6 @@
             <div>&copy; 2025 - MyHome</div>
         </footer>
         <script src="js/navMenu.js"></script>
-        <script src="js/appointments2.js"></script>
+        <script src="js/appointments4.js"></script>
     </body>
 </html>
