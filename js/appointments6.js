@@ -184,7 +184,7 @@ $(document).ready(function(){
                 if (confirm) {
                     $("input[name='appointment-action']").val("cancel");
                     $("input[name='appointment-id']").val(appointmentId);
-                    $('form').off('submit').submit();
+                    $('#appointment-form').off('submit').submit();
                 }
             }
         });
@@ -221,11 +221,11 @@ $(document).ready(function(){
         }
     });
 
-    $('form').on('submit', function(e) {
+    $('#appointment-form').on('submit', function(e) {
         e.preventDefault(); 
         if (!checkEmptyFields() && !checkErrors()) {
             console.log("Formulario Valido!");
-            $('form').unbind('submit').submit();
+            $('#appointment-form').unbind('submit').submit();
         } else{
             console.log("Formulario Invalido!");
         }

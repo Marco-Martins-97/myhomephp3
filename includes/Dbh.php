@@ -2,7 +2,7 @@
 
 class Dbh{
     private $host = "localhost";
-    private $dbname = "myhomephp";
+    private $dbname = "myhome";
     private $dbusername = "root";
     private $dbpassword = "";
 

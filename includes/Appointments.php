@@ -45,7 +45,7 @@ class Appointments{
         $stmt->bindParam(':appointmentId', $appointmentId);
         $stmt->execute();
     }
-    private function cancelAppointment($appointmentId, $username, $status){
+    private function setStatus($appointmentId, $username, $status){
         $currentTime = date('Y-m-d H:i:s');
         $sql = "UPDATE appointments SET lastUpdate = :lastUpdate,  appointmentStatus = :appointmentStatus WHERE username = :username AND id = :appointmentId;";
         $stmt = $this->conn->prepare($sql);
@@ -86,7 +86,7 @@ class Appointments{
             header("Location: ../adminNews.php?delete=failed");
             die();
         }
-        $this->cancelAppointment($appointmenId, $username, $status);
+        $this->setStatus($appointmenId, $username, $status);
     }
 
     public function loadAppointments($username){
@@ -105,5 +105,49 @@ class Appointments{
         $stmt->execute();
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
         return $result;
+    }
+    public function loadClientAppointments($username, $statusA){
+        $sql="SELECT id, clientName, appointmentDate, DATE_FORMAT(appointmentTime, '%H:%i') AS appointmentTime, reason, appointmentStatus, expired FROM appointments";
+
+        if ($username !== ""){  //username
+            $sql .= " WHERE username = :username";
+
+            if ($statusA === "all"){
+                $sql .= ";";
+            } elseif ($statusA === "pending"){
+                $sql .= " AND appointmentStatus = 'pending' OR username = :username AND appointmentStatus = 'rescheduled';";
+            } elseif ($statusA === "expired"){
+                $sql .= " AND expired = 1;";
+            } else {
+                $sql .= " AND appointmentStatus = :statusA;";
+            }
+
+        } else {                //empty username
+            if ($statusA === "all"){
+                $sql .= ";";
+            } elseif ($statusA === "pending"){
+                $sql .= " WHERE appointmentStatus = 'pending' OR appointmentStatus = 'rescheduled';";
+            } elseif ($statusA === "expired"){
+                $sql .= " WHERE expired = 1;";
+            } else {
+                $sql .= " WHERE appointmentStatus = :statusA;";
+            }
+        }
+
+        $stmt = $this->conn->prepare($sql);
+
+        if ($username !== "") { $stmt->bindParam(':username', $username); }
+        if ($statusA !== "all" && $statusA !== "pending" && $statusA !== "expired"){ $stmt->bindParam(':statusA', $statusA); }
+
+        $stmt->execute();
+        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $result;                                                                
+    }
+    public function changeStatus($appointmenId, $username, $status){
+        if (!$this->appointmenExists($appointmenId)){
+            return false;
+        }
+        $this->setStatus($appointmenId, $username, $status);
+        return true;
     }
 }

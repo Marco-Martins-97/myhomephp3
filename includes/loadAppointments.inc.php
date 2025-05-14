@@ -6,12 +6,33 @@ if(!isset($_SESSION["username"])){
     header("Location: ../index.php"); 
     die();
 }
-$appointmentId = isset($_POST["appointmentId"]) ? htmlspecialchars(trim($_POST["appointmentId"])) : "";
 $appointment = new Appointments();
-$username = $_SESSION["username"];
+$appointmentId = isset($_POST["appointmentId"]) ? htmlspecialchars(trim($_POST["appointmentId"])) : "";
+$username = isset($_POST["username"]) ? htmlspecialchars(trim($_POST["username"])) : $_SESSION["username"];
+$statusA = isset($_POST["statusA"]) ? htmlspecialchars(trim($_POST["statusA"])) : "all";
 
 
-if (!empty($appointmentId)){
+if (isset($_POST["username"]) && isset($_POST["statusA"])){
+    try {
+        $appointmentsData = $appointment -> loadClientAppointments($username, $statusA);
+
+        $data = [];
+        foreach ($appointmentsData as $appointmentData) {
+            $data[] = [
+                "appointmentId" => $appointmentData["id"],  
+                "clientName" => $appointmentData["clientName"],  
+                "date" => $appointmentData["appointmentDate"],  
+                "time" => $appointmentData["appointmentTime"],
+                "reason" => $appointmentData["reason"],
+                "status" => $appointmentData["appointmentStatus"],
+                "expired" => $appointmentData["expired"],
+            ];
+        }
+        echo json_encode($data);
+    } catch (PDOException $e) {
+        die ("Query Falhou: ".$e->getMessage());
+    }
+} elseif (!empty($appointmentId)){
     try {
         $appointmentData = $appointment -> loadAppointment($username, $appointmentId);
 

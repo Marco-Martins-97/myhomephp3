@@ -247,7 +247,7 @@ class Profile{
             $this->updateClientInDatabase($firstName, $lastName, $email, $birthDate, $nif, $phone, $clientAddress, $district, $userId);
             echo "Atualizado com  sucesso";
             if($this->username === $_SESSION["username"]){
-                $_SESSION["clientfirstName"] = $firstName;
+                $_SESSION["clientFirstName"] = $firstName;
                 $_SESSION["clientLastName"] = $lastName;
             }
         } else{
@@ -256,7 +256,7 @@ class Profile{
             $this->activateAccount(1);
             echo "Conta Ativada";
             if($this->username === $_SESSION["username"]){
-                $_SESSION["clientfirstName"] = $firstName;
+                $_SESSION["clientFirstName"] = $firstName;
                 $_SESSION["clientLastName"] = $lastName;
             }
         

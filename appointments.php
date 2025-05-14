@@ -25,9 +25,10 @@
         <style>
             .status{
                 text-transform: capitalize;
+                font-weight: bold;
             }
             .status.pending, .status.rescheduled{
-                color: orange;
+                color: yellow;
             }
             .status.cancelled{
                 color: red;
@@ -102,7 +103,7 @@
                         <div class="modal-content">
                             <span id="close-modal">&times;</span>
                             <h2 id="modal-title"></h2>
-                            <form action="includes/appointments.inc.php" method="post">
+                            <form action="includes/appointments.inc.php" method="post" id="appointment-form">
                                 <input type="hidden" name="appointment-action">
                                 <input type="hidden" name="appointment-id" value="">
                                 <div class="field-container">
@@ -139,6 +140,6 @@
             <div>&copy; 2025 - MyHome</div>
         </footer>
         <script src="js/navMenu.js"></script>
-        <script src="js/appointments4.js"></script>
+        <script src="js/appointments6.js"></script>
     </body>
 </html>

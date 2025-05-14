@@ -17,10 +17,11 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <!-- Style -->
         <link rel="stylesheet" href="css/style.css">
-        <link rel="stylesheet" href="css/appointments.css">
+        <!-- <link rel="stylesheet" href="css/appointments.css"> -->
         <link rel="shortcut icon" href="img/logo.jpg" type="image/x-icon">
         <!-- Script -->
         <script src="https://kit.fontawesome.com/d132031da6.js" crossorigin="anonymous"></script>
+        <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     </head>
     <body>
         <!-- Header -->
@@ -72,12 +73,23 @@
             </nav>
         </header>
         <main>
-                <?php if(!$_SESSION['activated']){ echo "<a href='profile.php'> Ativar Conta! </a>"; } else{ ?>
-                    
-
-
-
-                <?php } ?>
+            <?php if(!$_SESSION['activated']){ echo "<a href='profile.php'> Ativar Conta! </a>"; } else{ ?>
+                
+                <div class="search-bar">
+                    <input type="text" id="username-search" placeholder="@username">
+                    <select id="appointment-status">
+                        <option value="all">Todos</option>
+                        <option value="pending">Pendentes</option>
+                        <option value="confirmed">Confirmados</option>
+                        <option value="cancelled">Cancelados</option>
+                        <option value="declined">Recusados</option>
+                        <option value="no-show">Sem Presença</option>
+                        <option value="expired">Expirados</option>
+                    </select>
+                    <button id="search-appointments">Procurar</button>
+                </div>   
+                <ul class="schedule-appointments"></ul>
+            <?php } ?>
 
         </main>
         <!-- Footer -->
@@ -85,6 +97,6 @@
             <div>&copy; 2025 - MyHome</div>
         </footer>
         <script src="js/navMenu.js"></script>
-        <script src="js/profileValidate.js"></script>
+        <script src="js/appointmentsAdm.js"></script>
     </body>
 </html>
