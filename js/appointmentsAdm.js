@@ -1,8 +1,8 @@
 $(document).ready(function(){
-    function changeStatus(appointmentId, username, statusA){
-        $.post("includes/saveStatus.inc.php", { appointmentId: appointmentId, username: username, statusA: statusA }, function(status){
+    function changeStatus(appointmentId, statusA){
+        $.post("includes/saveStatus.inc.php", { appointmentId: appointmentId, statusA: statusA }, function(status){
             if (status ==="success"){
-                location.reload();
+                console.log(status);
             } else {
                 console.log("Error: " + status);
             }
@@ -16,7 +16,7 @@ $(document).ready(function(){
                 console.log(data);
                 let appointmentHTML = '';
                 data.forEach(appointment => {
-                    const actionBtns = appointment.status === "cancelled" || appointment.status === "declined" ? `` 
+                    const actionBtns = appointment.status === "cancelled" || appointment.status === "declined" || appointment.status === "expired" ? `` 
                     : appointment.expired ? `
                             <button class="action-appointment" data-status="completed" data-id="${appointment.appointmentId}">Completo</button>
                             <button class="action-appointment" data-status="no-show" data-id="${appointment.appointmentId}">Sem Presença</button>
@@ -57,13 +57,18 @@ $(document).ready(function(){
     });
 
     $(document).on('click', '.action-appointment', function() {
-        const username = $("#username-search").val();
         const appointmentId = $(this).data('id');
         const statusA = $(this).data('status');
-        changeStatus(appointmentId, username, statusA);
-        console.log(statusA);
+        if ($(this).data('status') === "declined"){
+            const confirm = window.confirm("Recusar esta marcação?");
+
+            if (confirm) {
+                changeStatus(appointmentId, statusA);
+            }
+        } else {changeStatus(appointmentId, statusA);}
+
+        const username = $("#username-search").val();
+        const statusS = $('#appointment-status option:selected').val();
+        loadAppointments(username, statusS);
     });
-
-
-
 });

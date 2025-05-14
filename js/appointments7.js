@@ -14,9 +14,16 @@ $(document).ready(function(){
                 data = JSON.parse(data);
                 let appointmentHTML = '';
                 data.forEach(appointment => {
-                    /* if(appointment.status === "cancelled"){
+                    /* if(appointment.status === "cancelled" || appointment.status === "expired"){ // nao mostra na lista marcaçoes canceladas e expiradas
                         return;
                     } */
+                    const actionBtns = appointment.status === "pending" || appointment.status === "rescheduled" || appointment.status === "confirmed"? `
+                    <div class="btn-container">
+                            <button class="reschedule-appointment" data-id="${appointment.appointmentId}">Remarcar</button>
+                            <button class="cancel-appointment" data-id="${appointment.appointmentId}">Cancelar</button>
+                        </div>
+                    ` : ``;
+                    
                     appointmentHTML += `
                         <li>
                             <div class="appointment-container">
@@ -24,10 +31,8 @@ $(document).ready(function(){
                                 <div class="appointment-title">
                                     <p>${appointment.date} ${appointment.time}</p>
                                     <p><span class="status ${appointment.status}">${appointment.status}</span></p>
-                                    <div class="btn-container">
-                                        <button class="reschedule-appointment" data-id="${appointment.appointmentId}">Remarcar</button>
-                                        <button class="cancel-appointment" data-id="${appointment.appointmentId}">Cancelar</button>
-                                    </div>
+                                    
+                                    ${actionBtns}
                                 </div>
                             </div>
                         </li>

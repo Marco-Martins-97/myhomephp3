@@ -11,8 +11,18 @@ class Appointments{
         $this->conn = $dbh->connect();
     }
 
+    /* 
+        Esta Funçao verifica se as marcaçoes expiraram(passaram da data marcada),
+        Esta funçao deve estar em constante funcionamento a fazer verificaçoes periodicas(ex:1h),
+        Neste caso esta a ser aplicada toda a vez que um admin fizer uma pesquisa de marcaçoes.
+     */
+    private function ckeckExpiredAppointments(){
+        $sql = "UPDATE appointments SET expired = 1, appointmentStatus = 'expired' WHERE expired = 0 AND appointmentStatus IN ('pending', 'rescheduled') AND CONCAT(appointmentDate, ' ', appointmentTime) < NOW();";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute();
+    }
 
-    private function appointmenExists($appointmenId){
+    private function appointmentExists($appointmenId){
         $sql = "SELECT id FROM appointments WHERE id = :appointmenId;";
         $stmt = $this->conn->prepare($sql);
         $stmt->bindParam(':appointmenId', $appointmenId);
@@ -45,17 +55,17 @@ class Appointments{
         $stmt->bindParam(':appointmentId', $appointmentId);
         $stmt->execute();
     }
-    private function setStatus($appointmentId, $username, $status){
+    private function setStatus($appointmentId, $status){
         $currentTime = date('Y-m-d H:i:s');
-        $sql = "UPDATE appointments SET lastUpdate = :lastUpdate,  appointmentStatus = :appointmentStatus WHERE username = :username AND id = :appointmentId;";
+        $sql = "UPDATE appointments SET lastUpdate = :lastUpdate,  appointmentStatus = :appointmentStatus WHERE id = :appointmentId;";
         $stmt = $this->conn->prepare($sql);
         $stmt->bindParam(':lastUpdate', $currentTime);
         $stmt->bindParam(':appointmentStatus', $status);
-        $stmt->bindParam(':username', $username);
         $stmt->bindParam(':appointmentId', $appointmentId);
         $stmt->execute();
     }
 
+    
 
     public function create($date, $time, $reason){
         $username = $_SESSION["username"];
@@ -79,14 +89,13 @@ class Appointments{
     }
 
     public function cancel($appointmenId){
-        $username = $_SESSION["username"];
         $status = "cancelled";
 
-        if (!$this->appointmenExists($appointmenId)){
+        if (!$this->appointmentExists($appointmenId)){
             header("Location: ../adminNews.php?delete=failed");
             die();
         }
-        $this->setStatus($appointmenId, $username, $status);
+        $this->setStatus($appointmenId, $status);
     }
 
     public function loadAppointments($username){
@@ -107,6 +116,7 @@ class Appointments{
         return $result;
     }
     public function loadClientAppointments($username, $statusA){
+        $this->ckeckExpiredAppointments();  //verifica as marcaçoes expiradas toda s a vezes que um admin faz uma pesquisa
         $sql="SELECT id, clientName, appointmentDate, DATE_FORMAT(appointmentTime, '%H:%i') AS appointmentTime, reason, appointmentStatus, expired FROM appointments";
 
         if ($username !== ""){  //username
@@ -143,11 +153,11 @@ class Appointments{
         $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
         return $result;                                                                
     }
-    public function changeStatus($appointmenId, $username, $status){
-        if (!$this->appointmenExists($appointmenId)){
+    public function changeStatus($appointmenId, $status){
+        if (!$this->appointmentExists($appointmenId)){
             return false;
         }
-        $this->setStatus($appointmenId, $username, $status);
-        return true;
+        $this->setStatus($appointmenId, $status);
+        return $appointmenId;
     }
 }
