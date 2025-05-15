@@ -17,7 +17,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <!-- Style -->
         <link rel="stylesheet" href="css/style.css">
-        <!-- <link rel="stylesheet" href="css/appointments.css"> -->
+        <link rel="stylesheet" href="css/adminAppointments.css">
         <link rel="shortcut icon" href="img/logo.jpg" type="image/x-icon">
         <!-- Script -->
         <script src="https://kit.fontawesome.com/d132031da6.js" crossorigin="anonymous"></script>
@@ -86,7 +86,7 @@
                         <option value="no-show">Sem Presença</option>
                         <option value="expired">Expirados</option>
                     </select>
-                    <button id="search-appointments">Procurar</button>
+                    <button id="search-appointments">Pesquisar</button>
                 </div>   
                 <ul class="schedule-appointments"></ul>
             <?php } ?>
@@ -97,6 +97,6 @@
             <div>&copy; 2025 - MyHome</div>
         </footer>
         <script src="js/navMenu.js"></script>
-        <script src="js/appointmentsAdm2.js"></script>
+        <script src="js/appointmentsAdm3.js"></script>
     </body>
 </html>

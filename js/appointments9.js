@@ -18,10 +18,8 @@ $(document).ready(function(){
                         return;
                     } */
                     const actionBtns = appointment.status === "pending" || appointment.status === "rescheduled" || appointment.status === "confirmed"? `
-                    <div class="btn-container">
                             <button class="reschedule-appointment" data-id="${appointment.appointmentId}">Remarcar</button>
                             <button class="cancel-appointment" data-id="${appointment.appointmentId}">Cancelar</button>
-                        </div>
                     ` : ``;
                     
                     appointmentHTML += `
@@ -30,9 +28,10 @@ $(document).ready(function(){
                                 <p>${appointment.reason}</p>
                                 <div class="appointment-title">
                                     <p>${appointment.date} ${appointment.time}</p>
+                                    <div class="btn-container">
+                                        ${actionBtns}
+                                    </div>
                                     <p><span class="status ${appointment.status}">${appointment.status}</span></p>
-                                    
-                                    ${actionBtns}
                                 </div>
                             </div>
                         </li>

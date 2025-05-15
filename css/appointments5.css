@@ -129,7 +129,13 @@
         text-align: right;
     }
 }
-
+.schedule-appointments{
+    padding: 20px 15px;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
 .create-appointment{
     display: block;
     position: fixed;
@@ -154,14 +160,13 @@
     display: flex;
     flex-direction: column;
     text-align: justify;
-    margin: 20px 15px;
     background:#f5f5f5;
     border-radius: 18px;
     box-shadow: 1px 2px 5px #00000080;
     border: 1.5px solid #000;
 } 
 .appointment-container p{
-    padding: 12px;
+    padding: 8px;
 }
 .appointment-title{
     display: flex;
@@ -169,7 +174,9 @@
     justify-content: space-between;
     background-color: #aaa;
     border-radius: 0 0 18px 18px; 
+    padding: 5px;
 }
+
 .btn-container {
     display: flex;
     gap: 0.5rem;
@@ -187,10 +194,27 @@
 .btn-container button:hover {
     background-color: #ddd;
 }
-
 .cancel-appointment:hover{
     color: #f00;
     border-color: #f00;
+}
+.status{
+    font-weight: bold;
+}
+.pending, .rescheduled{
+    color: yellow;
+}
+.cancelled, .declined, .expired{
+    color: red;
+}
+.confirmed, .rescheduled{
+    color: blue;
+}
+.completed{
+    color: green;
+}
+.no-show{
+    color: purple;
 }
 
 @media (min-width: 768px){
@@ -202,10 +226,10 @@
     }
     .appointment-title{
         flex-direction: column;
-        justify-content: space-around;
+        gap: 0.5rem;
+        justify-content: space-evenly;
         border-radius: 0 18px 18px 0; 
         min-width: 250px;
-        padding: 12px;
     }
     .btn-container {
         display: flex;
