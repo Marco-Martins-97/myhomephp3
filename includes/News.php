@@ -76,11 +76,11 @@ class News{
     public function create($title, $url, $content){
         if ($this->isInputEmpty($title) || $this->isInputEmpty($url) || $this->isInputEmpty($content)){
             $this->errors["createNew"] = "empty";
-        } else if (!$this->isInputEmpty($title) && $this->isInputInvalid($title)){
+        } else if ($this->isInputInvalid($title)){
             $this->errors["createNew"] = "titleInvalid";
-        } else if (!$this->isInputEmpty($url) && $this->isUrlInvalid($url)){
+        } else if ($this->isUrlInvalid($url)){
             $this->errors["createNew"] = "urlInvalid";
-        } else if (!$this->isInputEmpty($content) && $this->isInputInvalid($content)){
+        } else if ($this->isInputInvalid($content)){
             $this->errors["createNew"] = "contentInvalid";
         }
 

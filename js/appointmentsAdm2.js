@@ -1,8 +1,9 @@
 $(document).ready(function(){
     function changeStatus(appointmentId, statusA){
-        $.post("includes/saveStatus.inc.php", { appointmentId: appointmentId, statusA: statusA }, function(status){
+        $.post("includes/saveStatus.inc.php", { appointmentId: appointmentId, statusA: statusA }, function(data, status){
             if (status ==="success"){
-                console.log(status);
+                data = JSON.parse(data);
+                console.log(data);
             } else {
                 console.log("Error: " + status);
             }
@@ -13,7 +14,7 @@ $(document).ready(function(){
         $.post("includes/loadAppointments.inc.php", { username: username, statusA: statusA }, function(data, status){
             if (status ==="success") {
                 data = JSON.parse(data);
-                console.log(data);
+                // console.log(data);
                 let appointmentHTML = '';
                 data.forEach(appointment => {
                     const actionBtns = appointment.status === "cancelled" || appointment.status === "declined" || appointment.status === "expired" ? `` 

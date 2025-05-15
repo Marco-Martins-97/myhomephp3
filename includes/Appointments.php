@@ -65,26 +65,112 @@ class Appointments{
         $stmt->execute();
     }
 
-    
+    //Verficação de dados
+    private function isInputEmpty($input){
+        if (empty($input)){
+            return true;
+        } else{
+            return false;
+        }
+    }
+    private function isDateInvalid($input){
+        $dateParts = explode('-', $input);
+        if (!preg_match('/^\d{4}-\d{2}-\d{2}$/', $input)){
+            return true;
+        } elseif (!checkdate($dateParts[1], $dateParts[2], $dateParts[0])){
+            return true;
+        } else{
+            return false;
+        }
+    }
+    private function isDateExpired($input){
+        $inputDate = strtotime($input);
+        $currentDate = strtotime(date('Y-m-d'));
+        if ($inputDate < $currentDate){
+            return true;
+        } else{
+            return false;
+        }
+    }
+    private function isDateSunday($input){
+        $inputDate = strtotime($input);
+        $dayOfWeek = date('w', $inputDate);
+        if ($dayOfWeek == 0){
+            return true;
+        } else{
+            return false;
+        }
+    }
+    private function isTimeInvalid($input){
+        $appointmentTimes = ["08:00", "08:30", "09:00", "09:30", "10:00", "10:30", "11:00", "11:30", "13:00", "13:30", "14:00", "14:30", "15:00", "15:30", "16:00", "16:30"];
+        if (!in_array($input, $appointmentTimes)){
+            return true;
+        } else{
+            return false;
+        }
+    }
+    private function isInputInvalid($input){
+        if (!preg_match('/^[\p{L}\p{N}\s.,;:!?()\'"€$%&@#\-–—…]*$/u', $input)){
+            return true;
+        } else{
+            return false;
+        }
+    }
 
     public function create($date, $time, $reason){
+        if ($this->isInputEmpty($date) || $this->isInputEmpty($time) || $this->isInputEmpty($reason)){
+            $this->errors["createAppointment"] = "empty";
+        } else if ($this->isDateInvalid($date)){
+            $this->errors["createAppointment"] = "dateInvalid";
+        } else if ($this->isDateExpired($date)){
+            $this->errors["createAppointment"] = "dateExpired";
+        } else if ($this->isDateSunday($date)){
+            $this->errors["createAppointment"] = "dateSunday";
+        } else if ($this->isTimeInvalid($time)){
+            $this->errors["createAppointment"] = "timeInvalid";
+        } else if ($this->isInputInvalid($reason)){
+            $this->errors["createAppointment"] = "reasonInvalid";
+        }
+
+        //Erros
+        if ($this->errors){
+            echo $this->errors["createAppointment"];
+            header("Location: ../appointments.php?create=failed");
+            die();
+        }
+
         $username = $_SESSION["username"];
         $clientName = $_SESSION["clientFirstName"]." ".$_SESSION["clientLastName"];
         $status = "pending";
-
-
-
-
         $this->createAppointment($username, $clientName, $date, $time, $reason, $status);
     }
 
     public function reschedule($appointmenId, $date, $time, $reason){
+
+        if ($this->isInputEmpty($date) || $this->isInputEmpty($time) || $this->isInputEmpty($reason)){
+            $this->errors["rescheduleAppointment"] = "empty";
+        } else if ($this->isDateInvalid($date)){
+            $this->errors["rescheduleAppointment"] = "dateInvalid";
+        } else if ($this->isDateExpired($date)){
+            $this->errors["rescheduleAppointment"] = "dateExpired";
+        } else if ($this->isDateSunday($date)){
+            $this->errors["rescheduleAppointment"] = "dateSunday";
+        } else if ($this->isTimeInvalid($time)){
+            $this->errors["rescheduleAppointment"] = "timeInvalid";
+        } else if ($this->isInputInvalid($reason)){
+            $this->errors["rescheduleAppointment"] = "reasonInvalid";
+        } else if (!$this->appointmentExists($appointmenId)){
+            $this->errors["rescheduleAppointment"] = "idInvalid";
+        }
+
+        //Erros
+        if ($this->errors){
+            header("Location: ../appointments.php?reschedule=failed");
+            die();
+        }
+
         $username = $_SESSION["username"];
         $status = "rescheduled";
-
-
-
-
         $this->rescheduleAppointment($appointmenId, $username, $date, $time, $reason, $status);
     }
 
@@ -92,7 +178,7 @@ class Appointments{
         $status = "cancelled";
 
         if (!$this->appointmentExists($appointmenId)){
-            header("Location: ../adminNews.php?delete=failed");
+            header("Location: ../appointments.php?delete=failed");
             die();
         }
         $this->setStatus($appointmenId, $status);
@@ -158,6 +244,6 @@ class Appointments{
             return false;
         }
         $this->setStatus($appointmenId, $status);
-        return $appointmenId;
+        return true;
     }
 }

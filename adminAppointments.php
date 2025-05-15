@@ -97,6 +97,6 @@
             <div>&copy; 2025 - MyHome</div>
         </footer>
         <script src="js/navMenu.js"></script>
-        <script src="js/appointmentsAdm.js"></script>
+        <script src="js/appointmentsAdm2.js"></script>
     </body>
 </html>
