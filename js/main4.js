@@ -9,7 +9,7 @@ $(document).ready(function(){
                 let newsHTML = '';
                 data.forEach(article => {
                     newsHTML += `
-                        <li>
+                        <li data-id="${article.newId}">
                             <a href="${article.link}" target="_blank">${article.title}</a>
                             <p>${article.content}</p>
                         </li>
@@ -19,6 +19,22 @@ $(document).ready(function(){
             } else {
                 console.log("Error: " + status);
             }
+        });
+    }
+
+    function loadNew(newId){
+        $.post("includes/loadNews.inc.php", { newId }, function(data, status){
+            if (status ==="success") {
+                data = JSON.parse(data);
+                $('#new-display').html(`
+                    <div id="new">
+                        <h2><a href="${data.link}" target="_blank">${data.title}</a></h2>
+                        <p>${data.content}</p>
+                        <p class="author">${data.author}</p>
+                    </div>
+                `);
+            } else {
+                console.log("Error: " + status);w            }
         });
     }
 
@@ -47,4 +63,12 @@ $(document).ready(function(){
             }
         });
     }
+
+    $(document).on('click', '#news-feed li', function() {
+        const newId = $(this).data('id');
+        loadNew(newId);
+        const offset = 3 * parseFloat(getComputedStyle(document.documentElement).fontSize);
+        $('html, body').animate({ scrollTop: $('#new').offset().top-offset }, 'slow');
+    });
+
 });

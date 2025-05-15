@@ -135,7 +135,7 @@ class News{
     }
 
     public function loadNew($newId){
-        $sql="SELECT title, link, content FROM news WHERE id = :newId;";
+        $sql="SELECT title, link, content, author FROM news WHERE id = :newId;";
         $stmt = $this->conn->prepare($sql);
         $stmt->bindParam(':newId', $newId);
         $stmt->execute();

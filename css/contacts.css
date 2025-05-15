@@ -1,0 +1,52 @@
+body{
+    background-color: #eee;
+}
+/* Map */
+.map{
+    width: 100%;
+    max-width: 768px;
+    height: 500px;
+    margin: auto;
+    margin-bottom: 2rem;
+    z-index: 1;
+}
+
+.contact-container {
+    color: #333; 
+    width: 100%;
+    text-align: center;
+    font-weight: bold;
+    margin-bottom: 2rem;
+}
+.contact-container p {
+    margin: 0.5rem 0;
+}
+
+.contact-container a, .social a {
+    color: #555;
+}
+
+.contact-container a:hover, .social a:hover {
+    color: #000;
+}
+
+.social {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    margin-top: 1rem;
+}
+
+.social a {
+    font-size: 1.5rem;
+    transition: color 0.3s;
+}
+
+
+@media (min-width: 768px) {
+    .map{
+        margin-top: 4rem;
+        border-radius: 20px;
+        border: 3px solid #333;
+    }
+}

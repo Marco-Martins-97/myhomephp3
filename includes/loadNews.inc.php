@@ -19,6 +19,7 @@ require_once "News.php";
                 "title" => $newData["title"],
                 "link" => $newData["link"],
                 "content" => $newData["content"],
+                "author" => $newData["author"],
             );
 
             echo json_encode($data);
